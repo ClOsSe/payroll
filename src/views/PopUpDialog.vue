@@ -3,42 +3,39 @@
     <v-flex>
       <v-row>
         <v-col md="12">
-          <v-dialog v-model="dialog" width="500">
-            <Employer :selected="selected.id"></Employer>
-            <v-card>
-              <v-divider></v-divider>
+          <v-card>
+            <v-divider></v-divider>
 
-              <v-card-title class="headline grey lighten-2">نام پروژه</v-card-title>
+            <v-card-title class="headline grey lighten-2">نام پروژه</v-card-title>
 
-              <v-card-text>محتوای پروژه</v-card-text>
+            <v-card-text>محتوای پروژه</v-card-text>
+            <h1>{{selected}}</h1>
+            <v-divider></v-divider>
 
-              <v-divider></v-divider>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" @click="download">دانلود یه صورت PDF</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" @click="download">دانلود یه صورت PDF</v-btn>
+            </v-card-actions>
+          </v-card>
         </v-col>
       </v-row>
     </v-flex>
   </div>
 </template>
 <script>
-import Employer from "./Employer.vue";
 export default {
-  components: {
-    Employer,
-  },
+  props: ["selected"],
+
   data: () => ({
-    dialog: false,
     data: "",
   }),
   watch: {
     selected: {
-      handler() {
-        this.dialog = true;
+      handler(val) {
+        this.$axios.get(`list/${val}`).then(({ data }) => {
+          console.log(data);
+        });
+        console.log("test");
       },
       deep: true,
     },
@@ -54,7 +51,7 @@ export default {
     //   send req to get ifo from server
     download() {
       alert("با زدن این دکمه باید فایل به صورت مستفیم دانلود شود");
-      this.dialog = false;
+
       return;
     },
   },

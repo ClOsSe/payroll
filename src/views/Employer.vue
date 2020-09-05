@@ -44,9 +44,12 @@
       </v-layout>
     </v-layout>
     <!-- ***********************   POPUP         *************************** -->
-    <v-layout v-show="showPopUp">
-      <PopUpDialog></PopUpDialog>
-    </v-layout>
+
+    <v-dialog v-model="showPopUp" width="500">
+      <h1>hi</h1>
+      <PopUpDialog :selected="selected"></PopUpDialog>
+    </v-dialog>
+
     <!-- ***********************   POPUP         *************************** -->
   </v-container>
 </template>
@@ -72,9 +75,6 @@ export default {
         value.size <= 5000000 ||
         "حجم فایل باید کمتر از 5 مگابایت باشد!",
     ],
-    props: {
-      selected: String,
-    },
     tabs: [
       { index: 0, name: "تعریف پروژه" },
       { index: 1, name: "آپلود لیست حقوق" },
