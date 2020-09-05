@@ -39,7 +39,7 @@
 
         <v-row v-show="registerProject">
           <v-text-field v-model="projectName" label="نام پروژه را وارد کنید"></v-text-field>
-          <v-btn @click="sendProjectNameToDB" color="primary">ثبت</v-btn>
+          <v-btn @click="sendProjectName" color="primary">ثبت</v-btn>
         </v-row>
       </v-layout>
     </v-layout>
@@ -165,18 +165,15 @@ export default {
     },
     //chetori bedon inke safe ja be ja beshhe link taghir kone?
     // regiter a new project name
-    sendProjectNameToDB() {
-      let project_name = new FormData();
-
+    sendProjectName() {
       if (!this.projectName) {
         alert("لطفا نام پروژه را وارد کنید ");
         return;
       }
 
-      project_name.append("projectName", this.projectName);
       // project_name is a project name on db
       this.$axios
-        .post("project_Name", this.project_name)
+        .post("projectname", { projectname: this.project_name })
         .then((data) => {
           console.log(data);
         })
