@@ -6,7 +6,8 @@
           :hide-default-footer="true"
           :headers="headers"
           :items="items"
-          @click:row="showOnePayroll"
+          @click:row="veiwItem"
+          :selected="selected"
         >
           <template v-slot:items="props">
             <td>{{props.items}}</td>
@@ -14,15 +15,19 @@
         </v-data-table>
       </v-flex>
     </v-layout>
-    <!-- ***********************   POPUP         *************************** -->
-    <v-row v-show="showPopUp">
-      <v-col md="12">
-        <v-layout>
-          <PopUpDialog></PopUpDialog>
-        </v-layout>
-      </v-col>
-    </v-row>
-    <!-- ***********************   POPUP         *************************** -->
+    <!-- ***********************   POPUP   *************************** -->
+
+    <v-dialog v-model="dialog">
+      <v-card-title class="headline grey lighten-2 pos">
+        نام پروژه
+        <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <PopUpDialog :selected="selected"></PopUpDialog>
+    </v-dialog>
+
+    <!-- ***********************   POPUP   *************************** -->
   </v-container>
 </template>
 <script>
@@ -34,6 +39,8 @@ export default {
   data() {
     return {
       showPopUp: false,
+      dialog: false,
+      selected: "",
       headers: [
         { text: "نام پروژه", sortable: false, value: "projectname" },
         { text: "تاریخ", value: "date" },
@@ -42,18 +49,21 @@ export default {
       items: [
         {
           // chetori bejaye in meghdar ha az DB data begiram?
+          id: "1",
           projectname: "پروژه 1",
           date: "1399/6/01",
           income: 6000000,
         },
         {
           // chetori bejaye in meghdar ha az DB data begiram?
+          id: "2",
           projectname: "پروژه 2",
           date: "1399/7/01",
           income: 6000000,
         },
         {
           // chetori bejaye in meghdar ha az DB data begiram?
+          id: "3",
           projectname: "پروژه 3",
           date: "1399/8/01",
           income: 6000000,
@@ -62,17 +72,14 @@ export default {
     };
   },
   methods: {
-    showOnePayroll(index) {
-      alert(
-        "this is not dialog :" +
-          index.projectname +
-          " - " +
-          index.date +
-          " - " +
-          index.income
-      );
+    //  moshahede 1 mored az list bayad ba :id (GET) ersal shavad
 
+    veiwItem(veiwItem) {
+      //  showpopup will show dialog component
       this.showPopUp = true;
+      this.dialog = true;
+      this.selected = veiwItem.id;
+      console.log("this is id : " + this.selected);
     },
   },
 };

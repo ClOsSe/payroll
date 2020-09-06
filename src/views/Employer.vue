@@ -43,14 +43,19 @@
         </v-row>
       </v-layout>
     </v-layout>
-    <!-- ***********************   POPUP         *************************** -->
+    <!-- ***********************   POPUP   *************************** -->
 
-    <v-dialog v-model="showPopUp" width="500">
-      <h1>hi</h1>
+    <v-dialog v-model="dialog">
+      <v-card-title class="headline grey lighten-2 pos">
+        نام پروژه
+        <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
       <PopUpDialog :selected="selected"></PopUpDialog>
     </v-dialog>
 
-    <!-- ***********************   POPUP         *************************** -->
+    <!-- ***********************   POPUP   *************************** -->
   </v-container>
 </template>
 <script>
@@ -61,6 +66,7 @@ export default {
     PopUpDialog,
   },
   data: () => ({
+    dialog: false,
     selected: "",
     showPopUp: false,
     excelFile: null,
@@ -116,6 +122,7 @@ export default {
     veiwItem(veiwItem) {
       //  showpopup will show dialog component
       this.showPopUp = true;
+      this.dialog = true;
       this.selected = veiwItem.id;
       console.log("this is id : " + this.selected);
     },
@@ -163,6 +170,9 @@ export default {
           console.log(e);
         });
     },
+    cancel() {
+      this.dialog = false;
+    },
     //chetori bedon inke safe ja be ja beshhe link taghir kone?
     // regiter a new project name
     sendProjectName() {
@@ -207,5 +217,8 @@ export default {
 }
 #nav-btn {
   width: 100%;
+}
+#cancel {
+  margin-left: 15px;
 }
 </style>

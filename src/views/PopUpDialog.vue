@@ -6,10 +6,11 @@
           <v-card>
             <v-divider></v-divider>
 
-            <v-card-title class="headline grey lighten-2">نام پروژه</v-card-title>
+            <v-card-text id="test">
+              محتوای پروژه
+              <h5>ای دی سطر انتخاب شده{{selected}}</h5>
+            </v-card-text>
 
-            <v-card-text>محتوای پروژه</v-card-text>
-            <h1>{{selected}}</h1>
             <v-divider></v-divider>
 
             <v-card-actions>
@@ -34,6 +35,7 @@ export default {
       handler(val) {
         this.$axios.get(`list/${val}`).then(({ data }) => {
           console.log(data);
+          console.log(this.selected);
         });
         console.log("test");
       },
@@ -41,21 +43,16 @@ export default {
     },
   },
   methods: {
-    getAnswer() {
-      if (this.handler.indexOf("1")) {
-        console.log("this.data");
-      } else {
-        console.log("test");
-      }
-    },
     //   send req to get ifo from server
     download() {
       alert("با زدن این دکمه باید فایل به صورت مستفیم دانلود شود");
-
       return;
     },
   },
 };
 </script>
 <style >
+#test {
+  margin: 10px;
+}
 </style>
