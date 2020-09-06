@@ -52,6 +52,9 @@ export default {
 };
 </script>
 <style >
+.body {
+  width: 99%;
+}
 #test {
   margin: 10px;
 }

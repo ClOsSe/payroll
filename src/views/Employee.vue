@@ -84,4 +84,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+#cancel {
+  margin-left: 15px;
+}
+</style>
