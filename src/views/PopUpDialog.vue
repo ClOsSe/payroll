@@ -7,8 +7,7 @@
             <v-divider></v-divider>
 
             <v-card-text id="test">
-              محتوای پروژه
-              <h5>ای دی سطر انتخاب شده{{selected}}</h5>
+              <v-data-table :hide-default-footer="true" :headers="headers" :items="information"></v-data-table>
             </v-card-text>
 
             <v-divider></v-divider>
@@ -29,15 +28,20 @@ export default {
 
   data: () => ({
     data: "",
+    headers: [
+      { text: "کدپرسنلی", sortable: false, value: "national_id" },
+      { text: "حقوق و مزایا", sortable: false, value: "additions" },
+      { text: "کسورات", sortable: false, value: "deductions" },
+      { text: "تاریخ", sortable: false, value: "date_monthly" },
+    ],
+    information: [],
   }),
   watch: {
     selected: {
       handler(val) {
         this.$axios.get(`list/${val}`).then(({ data }) => {
-          console.log(data);
-          console.log(this.selected);
+          this.information = data;
         });
-        console.log("test");
       },
       deep: true,
     },

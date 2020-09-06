@@ -47,7 +47,7 @@
 
     <v-dialog v-model="dialog">
       <v-card-title class="headline grey lighten-2 pos">
-        نام پروژه
+        نام پروژه {{headers.project_name}}
         <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
@@ -68,7 +68,6 @@ export default {
   data: () => ({
     dialog: false,
     selected: "",
-    showPopUp: false,
     excelFile: null,
     projectName: "",
     uploadFile: true,
@@ -82,49 +81,27 @@ export default {
         "حجم فایل باید کمتر از 5 مگابایت باشد!",
     ],
     tabs: [
-      { index: 0, name: "تعریف پروژه" },
-      { index: 1, name: "آپلود لیست حقوق" },
-      { index: 2, name: "نمایش لیست حقوق" },
+      { index: 0, name: "تعریف پروژه جدید" },
+      { index: 1, name: "نمایش لیست پروژه‌ها" },
+      { index: 2, name: "لیست فیش‌های حقوقی" },
     ],
     headers: [
-      { text: "نام پروژه", sortable: false, value: "projectname" },
-      { text: "تاریخ", value: "date" },
-      { text: "درآمد (ریال)", value: "income" },
+      { text: "نام پروژه", sortable: false, value: "project_name" },
+      { text: "تاریخ", value: "date_monthly" },
     ],
-    // ba method get file haye zir ro namayehs bede
-    // this is fake data ***********************************************************************
     items: [
       {
-        // chetori bejaye in meghdar ha az server data begiram? with get
-        id: "1",
-        projectname: "پروژه ۱",
-        date: "1399/6/01",
-        income: 2000000,
-      },
-      {
-        id: "2",
-        projectname: "پروژه 2",
-        date: "1399/7/01",
-        income: 5000000,
-      },
-      {
-        id: "3",
-        projectname: "پروژه 3",
-        date: "1399/8/01",
-        income: 1000000,
+        project_name: "test 1",
+        date_monthly: "test 2",
       },
     ],
   }),
-  // end of fake data ***********************************************
+  //************************* methods **********************************
   methods: {
-    //  moshahede 1 mored az list bayad ba :id (GET) ersal shavad
-
     veiwItem(veiwItem) {
-      //  showpopup will show dialog component
-      this.showPopUp = true;
+      //  dialog will show dialog component
       this.dialog = true;
       this.selected = veiwItem.id;
-      console.log("this is id : " + this.selected);
     },
     // moving between tabs
     changeTab(e) {
@@ -132,23 +109,17 @@ export default {
         this.registerProject = true;
         this.showList = false;
         this.uploadFile = false;
-        this.showPopUp = false;
-
-        console.log(e);
+        console.log("id tab" + e);
       } else if (e === 1) {
         this.uploadFile = true;
         this.showList = false;
         this.registerProject = false;
-        this.showPopUp = false;
-
-        console.log(e);
+        console.log("id tab" + e);
       } else {
         this.showList = true;
         this.registerProject = false;
         this.uploadFile = false;
-        this.showPopUp = false;
-
-        console.log(e);
+        console.log("id tab" + e);
       }
     },
     // Insert Excel file Into DB

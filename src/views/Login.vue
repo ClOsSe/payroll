@@ -51,12 +51,8 @@ export default {
   },
   methods: {
     submit() {
-      // man be users/login req mifrestam
-      // server user va admin ro check mikone
-      // naghsh user ( admin - normal user) moshakhas mishe
-      //  man roye rol ya naghsh shart mizaram baraye ersal be samt baghi safahat
       this.$axios
-        .post("users/login", {
+        .post("/login", {
           username: this.username,
           password: this.password,
         })
@@ -71,7 +67,7 @@ export default {
             } else if (data.data.role === "admin") {
               this.$router.push("/employer");
             } else {
-              console.log("ehraz hoviyat nadorost");
+              alert(data); //username or password is not correct
             }
           }
         })

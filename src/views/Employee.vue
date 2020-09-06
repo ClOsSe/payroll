@@ -8,18 +8,14 @@
           :items="items"
           @click:row="veiwItem"
           :selected="selected"
-        >
-          <template v-slot:items="props">
-            <td>{{props.items}}</td>
-          </template>
-        </v-data-table>
+        ></v-data-table>
       </v-flex>
     </v-layout>
     <!-- ***********************   POPUP   *************************** -->
 
     <v-dialog v-model="dialog">
       <v-card-title class="headline grey lighten-2 pos">
-        نام پروژه
+        نام پروژه {{headers.project_name}}
         <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
@@ -38,45 +34,38 @@ export default {
   },
   data() {
     return {
-      showPopUp: false,
       dialog: false,
       selected: "",
       headers: [
-        { text: "نام پروژه", sortable: false, value: "projectname" },
-        { text: "تاریخ", value: "date" },
-        { text: "درآمد (ریال)", value: "income" },
+        { text: "نام پروژه", sortable: false, value: "project_name" },
+        { text: "تاریخ", sortable: false, value: "date_monthly" },
       ],
       items: [
         {
-          // chetori bejaye in meghdar ha az DB data begiram?
-          id: "1",
-          projectname: "پروژه 1",
-          date: "1399/6/01",
-          income: 6000000,
-        },
-        {
-          // chetori bejaye in meghdar ha az DB data begiram?
-          id: "2",
-          projectname: "پروژه 2",
-          date: "1399/7/01",
-          income: 6000000,
-        },
-        {
-          // chetori bejaye in meghdar ha az DB data begiram?
-          id: "3",
-          projectname: "پروژه 3",
-          date: "1399/8/01",
-          income: 6000000,
+          project_name: "test 1",
+          date_monthly: "test 2",
         },
       ],
     };
   },
+  mounted() {
+    this.$axios
+      .get("/user/list")
+      .then((data) => {
+        this.items = data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  },
   methods: {
+    cancel() {
+      this.dialog = false;
+    },
     //  moshahede 1 mored az list bayad ba :id (GET) ersal shavad
 
     veiwItem(veiwItem) {
-      //  showpopup will show dialog component
-      this.showPopUp = true;
+      //  dialog will show dialog component
       this.dialog = true;
       this.selected = veiwItem.id;
       console.log("this is id : " + this.selected);
