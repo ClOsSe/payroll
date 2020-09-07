@@ -3,7 +3,7 @@
     <v-layout class="header" row>
       <v-flex class="nav_username" col="12">خوش آمدید</v-flex>
       <v-btn slall dark color="error" id="cancel" @click="logOut()">
-        <v-icon dark>mdi-login</v-icon>
+        <v-icon dark>mdi-logout</v-icon>
       </v-btn>
     </v-layout>
     <router-view />
@@ -14,7 +14,7 @@ export default {
   methods: {
     logOut() {
       localStorage.clear();
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
 };
