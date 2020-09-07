@@ -11,6 +11,10 @@
             </v-card-text>
 
             <v-divider></v-divider>
+            <h2 v-show="dllink">
+              لینک دانلود (کلیک کنید) :
+              <a :href="this.link">برای دانلود کلیک کنید</a>
+            </h2>
 
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -28,6 +32,9 @@ export default {
 
   data: () => ({
     data: "",
+    link: "",
+    dllink: false,
+
     headers: [
       { text: "کدپرسنلی", sortable: false, value: "national_id" },
       { text: "حقوق و مزایا", sortable: false, value: "additions" },
@@ -56,8 +63,15 @@ export default {
   methods: {
     //   send req to get ifo from server
     download() {
-      alert("با زدن این دکمه باید فایل به صورت مستفیم دانلود شود");
-      return;
+      this.$axios
+        .get("/user/pdf/:id")
+        .then((data) => {
+          this.link = data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      this.dllink = true;
     },
   },
 };
