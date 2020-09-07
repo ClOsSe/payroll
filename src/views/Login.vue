@@ -51,6 +51,8 @@ export default {
   },
   methods: {
     submit() {
+      // naghsh user ( admin - user) moshakhas mishe
+      //  man roye rol ya naghsh shart mizaram baraye ersal be samt baghi safahat
       this.$axios
         .post("/login", {
           username: this.username,
@@ -67,7 +69,7 @@ export default {
             } else if (data.data.role === "admin") {
               this.$router.push("/employer");
             } else {
-              alert(data); //username or password is not correct
+              alert(data); //username or password is not correct!
             }
           }
         })

@@ -2,12 +2,22 @@
   <div class="bg-gray">
     <v-layout class="header" row>
       <v-flex class="nav_username" col="12">خوش آمدید</v-flex>
+      <v-btn slall dark color="error" id="cancel" @click="logOut()">
+        <v-icon dark>mdi-login</v-icon>
+      </v-btn>
     </v-layout>
     <router-view />
   </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    logOut() {
+      localStorage.clear();
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
 <style>
 .header {
@@ -18,5 +28,9 @@ export default {};
   margin-top: 11px;
   margin-right: 10px;
   color: aliceblue;
+}
+
+#cancel {
+  margin: 20px;
 }
 </style>

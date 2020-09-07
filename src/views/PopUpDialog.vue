@@ -6,7 +6,7 @@
           <v-card>
             <v-divider></v-divider>
 
-            <v-card-text id="test">
+            <v-card-text id="text">
               <v-data-table :hide-default-footer="true" :headers="headers" :items="information"></v-data-table>
             </v-card-text>
 
@@ -34,7 +34,14 @@ export default {
       { text: "کسورات", sortable: false, value: "deductions" },
       { text: "تاریخ", sortable: false, value: "date_monthly" },
     ],
-    information: [],
+    information: [
+      {
+        national_id: "123456789",
+        additions: "1500000+",
+        deductions: "5000000-",
+        date_monthly: "1399/07/01",
+      },
+    ],
   }),
   watch: {
     selected: {
@@ -56,7 +63,7 @@ export default {
 };
 </script>
 <style >
-#test {
+#text {
   margin: 10px;
 }
 </style>

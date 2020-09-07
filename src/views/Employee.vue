@@ -15,7 +15,7 @@
 
     <v-dialog v-model="dialog">
       <v-card-title class="headline grey lighten-2 pos">
-        نام پروژه {{headers.project_name}}
+        نام پروژه : {{this.projectname}}
         <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
@@ -36,14 +36,16 @@ export default {
     return {
       dialog: false,
       selected: "",
+      projectname: "", // save project name to send to show on pop up title
       headers: [
         { text: "نام پروژه", sortable: false, value: "project_name" },
         { text: "تاریخ", sortable: false, value: "date_monthly" },
       ],
       items: [
         {
-          project_name: "test 1",
-          date_monthly: "test 2",
+          id: "1",
+          project_name: "شرکت سیمان",
+          date_monthly: "1399/06/01",
         },
       ],
     };
@@ -68,6 +70,7 @@ export default {
       //  dialog will show dialog component
       this.dialog = true;
       this.selected = veiwItem.id;
+      this.projectname = veiwItem.project_name;
       console.log("this is id : " + this.selected);
     },
   },

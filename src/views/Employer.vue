@@ -9,34 +9,31 @@
       <router-view />
 
       <v-layout>
-        <v-row v-show="uploadFile">
-          <v-file-input
-            v-model="excelFile"
-            ref="excelFile"
-            show-size
-            :rules="excelFileRules"
-            accept=".xls, .xlsx"
-            label="حداکثر 5 مگابایت - فقط xls , xlsx"
-          ></v-file-input>
-          <v-btn @click="sendList()" color="primary">ارسال</v-btn>
+        <!-- this will be shoed with drop down  -->
+        <v-row v-show="showProjectLists" md="12">
+          <v-flex>
+            <v-data-table
+              :hide-default-footer="true"
+              :headers="projectsHeaders"
+              :items="projectItems"
+              @click:row="viewProject"
+              :selected="projectNameSelected"
+            ></v-data-table>
+          </v-flex>
         </v-row>
-
+        <!-- ******************************* -->
         <v-row v-show="showList">
           <v-flex>
             <v-data-table
               :hide-default-footer="true"
               :headers="headers"
               :items="items"
-              @click:row="veiwItem"
+              @click:row="viewPayrollItem"
               :selected="selected"
-            >
-              <template v-slot:items="props">
-                <tr>{{props.items}}</tr>
-              </template>
-            </v-data-table>
+            ></v-data-table>
           </v-flex>
         </v-row>
-
+        <!-- ************************* -->
         <v-row v-show="registerProject">
           <v-text-field v-model="projectName" label="نام پروژه را وارد کنید"></v-text-field>
           <v-btn @click="sendProjectName" color="primary">ثبت</v-btn>
@@ -45,9 +42,9 @@
     </v-layout>
     <!-- ***********************   POPUP   *************************** -->
 
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="showPayrollItem">
       <v-card-title class="headline grey lighten-2 pos">
-        نام پروژه {{headers.project_name}}
+        نام پروژه {{this.payrollname2}}
         <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
@@ -56,93 +53,105 @@
     </v-dialog>
 
     <!-- ***********************   POPUP   *************************** -->
+    <!-- upload payroll file based on project name -->
+    <v-dialog v-model="uploadFile">
+      <v-card-title class="headline grey lighten-2 pos">
+        آپلود فیش حقوق برای پروژه: {{this.projectname2}}
+        <v-btn small absolute left dark color="error" id="cancel" @click="cancelUpload()">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <UploadPayroll :projectNameSelected="projectNameSelected"></UploadPayroll>
+    </v-dialog>
+    <!-- ********************** -->
   </v-container>
 </template>
 <script>
 import PopUpDialog from "./PopUpDialog.vue";
-
+import UploadPayroll from "./UploadPayroll.vue";
 export default {
   components: {
     PopUpDialog,
+    UploadPayroll,
   },
   data: () => ({
-    dialog: false,
+    projectname2: "", // save project name to send to show on pop up title
+    payrollname2: "", // save payroll name to send to show on pop up title
+    projectNameSelected: "",
+    showPayrollItem: false,
     selected: "",
-    excelFile: null,
     projectName: "",
-    uploadFile: true,
+    uploadFile: false,
     registerProject: false,
     showList: false,
+    showProjectLists: true,
     active_tab: 1,
-    excelFileRules: [
-      (value) =>
-        !value ||
-        value.size <= 5000000 ||
-        "حجم فایل باید کمتر از 5 مگابایت باشد!",
-    ],
+
     tabs: [
       { index: 0, name: "تعریف پروژه جدید" },
       { index: 1, name: "نمایش لیست پروژه‌ها" },
       { index: 2, name: "لیست فیش‌های حقوقی" },
     ],
     headers: [
+      { text: "نام و نام خانوادگی", sortable: false, value: "username" },
+      { text: "کد پرسنلی", sortable: false, value: "id" },
       { text: "نام پروژه", sortable: false, value: "project_name" },
-      { text: "تاریخ", value: "date_monthly" },
+      { text: " تاریخ فیش", value: "date_monthly" },
     ],
     items: [
       {
-        project_name: "test 1",
-        date_monthly: "test 2",
+        id: "10522",
+        username: "محمد گودرزی",
+        project_name: "shciman",
+        date_monthly: "1399/06/01",
       },
+    ],
+    projectsHeaders: [
+      { text: "نام پروژه", sortable: false, value: "project_name" },
+      { text: "تاریخ پروژه", sortable: false, value: "project_date" },
+      { text: "id", sortable: false, value: "id" },
+    ],
+    projectItems: [
+      { project_name: "chciman", project_date: "1399/06/08", id: "project id" },
     ],
   }),
   //************************* methods **********************************
   methods: {
-    veiwItem(veiwItem) {
-      //  dialog will show dialog component
-      this.dialog = true;
-      this.selected = veiwItem.id;
+    viewProject(viewProject) {
+      this.uploadFile = true;
+
+      this.projectname2 = viewProject.project_name;
+      this.projectNameSelected = viewProject.id;
+    },
+    viewPayrollItem(viewItem) {
+      //  dialog will show popupdialog component
+      this.showPayrollItem = true;
+      this.payrollname2 = viewItem.project_name;
+      this.selected = viewItem.id;
     },
     // moving between tabs
     changeTab(e) {
       if (e === 0) {
         this.registerProject = true;
         this.showList = false;
-        this.uploadFile = false;
-        console.log("id tab" + e);
+        (this.showProjectLists = false), console.log("id tab : " + e);
       } else if (e === 1) {
-        this.uploadFile = true;
-        this.showList = false;
+        (this.showProjectLists = true), (this.showList = false);
         this.registerProject = false;
-        console.log("id tab" + e);
+        console.log("id tab : " + e);
       } else {
         this.showList = true;
         this.registerProject = false;
-        this.uploadFile = false;
-        console.log("id tab" + e);
+        (this.showProjectLists = false), console.log("id tab : " + e);
       }
     },
-    // Insert Excel file Into DB
-    sendList() {
-      // send xls file to DB with post
-      let list = new FormData();
-      if (!this.excelFile) {
-        alert("لطفا ابتدا یک فایل انتخاب کنید!");
-        return;
-      }
-      list.append("projects", this.excelFile, this.excelFile.name);
-      // ersal form data be samt server
-      this.$axios
-        .post("lists", list)
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+
     cancel() {
-      this.dialog = false;
+      this.showPayrollItem = false;
+    },
+    cancelUpload() {
+      this.uploadFile = false;
+      this.projectname2 = "";
     },
     //chetori bedon inke safe ja be ja beshhe link taghir kone?
     // regiter a new project name
@@ -177,7 +186,6 @@ export default {
   width: 120px;
   height: 60px;
 }
-.v-file-input,
 .v-text-field {
   margin-top: 10%;
   margin-right: 15px;
