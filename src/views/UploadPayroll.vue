@@ -5,7 +5,7 @@
         <v-col md="12">
           <v-card>
             <v-card-text>
-              <h2 style="color:red;">لطفا با توجه به نام پروژه, فایل فیش حقوقی را آپلود کنید.</h2>
+              <h4 style="color:red;">لطفا با توجه به نام پروژه, فایل فیش حقوقی را آپلود کنید.</h4>
               <v-file-input
                 v-model="excelFile"
                 ref="excelFile"
@@ -54,7 +54,7 @@ export default {
       list.append("projects", this.excelFile, this.excelFile.name);
       // ersal form data be samt server
       this.$axios
-        .post("lists", list)
+        .post("admin/newList", list)
         .then((data) => {
           console.log(data);
         })

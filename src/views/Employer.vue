@@ -9,7 +9,7 @@
       <router-view />
 
       <v-layout>
-        <!-- this will be shoed with drop down  -->
+        <!--  show project list -->
         <v-row v-show="showProjectLists" md="12">
           <v-flex>
             <v-data-table
@@ -49,14 +49,15 @@
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
-      <PopUpDialog :selected="selected"></PopUpDialog>
+      <PopUpDialog :selected2="selected2"></PopUpDialog>
     </v-dialog>
 
     <!-- ***********************   POPUP   *************************** -->
     <!-- upload payroll file based on project name -->
     <v-dialog v-model="uploadFile">
       <v-card-title class="headline grey lighten-2 pos">
-        آپلود فیش حقوق برای پروژه: {{this.projectname2}}
+        <h5>آپلود فیش حقوق برای پروژه:</h5>
+        <h4>{{this.projectname2}}</h4>
         <v-btn small absolute left dark color="error" id="cancel" @click="cancelUpload()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
@@ -79,7 +80,7 @@ export default {
     payrollname2: "", // save payroll name to send to show on pop up title
     projectNameSelected: "",
     showPayrollItem: false,
-    selected: "",
+    selected2: "",
     projectName: "",
     uploadFile: false,
     registerProject: false,
@@ -105,21 +106,54 @@ export default {
         project_name: "shciman",
         date_monthly: "1399/06/01",
       },
+      {
+        id: "10523",
+        username: "رضا گودرزی",
+        project_name: "shciman",
+        date_monthly: "1399/07/01",
+      },
     ],
     projectsHeaders: [
+      { text: "id", sortable: false, value: "id" },
       { text: "نام پروژه", sortable: false, value: "project_name" },
       { text: "تاریخ پروژه", sortable: false, value: "project_date" },
-      { text: "id", sortable: false, value: "id" },
     ],
     projectItems: [
-      { project_name: "chciman", project_date: "1399/06/08", id: "project id" },
+      {
+        id: "project id",
+        project_name: "شرکت سیمان",
+        project_date: "1399/06/08",
+      },
+      {
+        id: "project id",
+        project_name: "تامین اجتماعی",
+        project_date: "1399/08/08",
+      },
     ],
   }),
+  // ************************ mounted ***********************************
+  mounted() {
+    this.$axios
+      .get("/admin/project")
+      .then((data) => {
+        this.projectItems = data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    this.$axios
+      .get("/admin/list")
+      .then((data) => {
+        this.projectItems = data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  },
   //************************* methods **********************************
   methods: {
     viewProject(viewProject) {
       this.uploadFile = true;
-
       this.projectname2 = viewProject.project_name;
       this.projectNameSelected = viewProject.id;
     },
@@ -127,7 +161,7 @@ export default {
       //  dialog will show popupdialog component
       this.showPayrollItem = true;
       this.payrollname2 = viewItem.project_name;
-      this.selected = viewItem.id;
+      this.selected2 = viewItem.id;
     },
     // moving between tabs
     changeTab(e) {
@@ -163,7 +197,7 @@ export default {
 
       // project_name is a project name on db
       this.$axios
-        .post("projectname", { projectname: this.project_name })
+        .post("admin/project", { projectName: this.projectName })
         .then((data) => {
           console.log(data);
         })

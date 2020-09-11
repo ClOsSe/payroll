@@ -47,6 +47,11 @@ export default {
           project_name: "شرکت سیمان",
           date_monthly: "1399/06/01",
         },
+        {
+          id: "2",
+          project_name: "شرکت سیمان2",
+          date_monthly: "1399/07/01",
+        },
       ],
     };
   },

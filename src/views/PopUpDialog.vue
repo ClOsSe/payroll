@@ -28,12 +28,13 @@
 </template>
 <script>
 export default {
-  props: ["selected"],
+  props: ["selected", "selected2"],
 
   data: () => ({
     data: "",
     link: "",
     dllink: false,
+    getId: "",
 
     headers: [
       { text: "کدپرسنلی", sortable: false, value: "national_id" },
@@ -52,8 +53,16 @@ export default {
   }),
   watch: {
     selected: {
-      handler(val) {
-        this.$axios.get(`list/${val}`).then(({ data }) => {
+      handler() {
+        this.$axios.get(`user/${this.selected}`).then(({ data }) => {
+          this.information = data;
+        });
+      },
+      deep: true,
+    },
+    selected2: {
+      handler() {
+        this.$axios.get(`admin/${this.selected2}`).then(({ data }) => {
           this.information = data;
         });
       },
@@ -63,8 +72,14 @@ export default {
   methods: {
     //   send req to get ifo from server
     download() {
+      if (this.selected) {
+        this.getId = this.selected;
+      } else if (this.selected2) {
+        this.getId = this.selected2;
+      }
+
       this.$axios
-        .get("/user/pdf/:id")
+        .get(`/user/pdf/${this.getId}`)
         .then((data) => {
           this.link = data;
         })
