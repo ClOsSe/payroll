@@ -1,11 +1,9 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-tabs grow v-model="active_tab">
-        <v-tab v-for="tab of tabs" :key="tab.index">
-          <p id="nav-btn" @click="changeTab(tab.index)" style="color:#399">{{ tab.name }}</p>
-        </v-tab>
-      </v-tabs>
+      <v-btn class="nav-btn" small @click="rgNewProject()" text color="#399">تعریف پروژه جدید</v-btn>
+      <v-btn class="nav-btn" small @click="shProjectList()" text color="indigo">نمایش لیست پروژه‌ها</v-btn>
+      <v-btn class="nav-btn" small @click="shPayrollList()" text color="#399">لیس فیش‌های حقوقی</v-btn>
       <router-view />
 
       <v-layout>
@@ -152,6 +150,21 @@ export default {
   },
   //************************* methods **********************************
   methods: {
+    rgNewProject() {
+      this.registerProject = true;
+      this.showList = false;
+      (this.showProjectLists = false), console.log("id tab : ");
+    },
+    shProjectList() {
+      (this.showProjectLists = true), (this.showList = false);
+      this.registerProject = false;
+      console.log("id tab : ");
+    },
+    shPayrollList() {
+      this.showList = true;
+      this.registerProject = false;
+      (this.showProjectLists = false), console.log("id tab : ");
+    },
     viewProject(viewProject) {
       this.uploadFile = true;
       this.projectname2 = viewProject.project_name;
@@ -163,23 +176,6 @@ export default {
       this.payrollname2 = viewItem.project_name;
       this.selected2 = viewItem.id;
     },
-    // moving between tabs
-    changeTab(e) {
-      if (e === 0) {
-        this.registerProject = true;
-        this.showList = false;
-        (this.showProjectLists = false), console.log("id tab : " + e);
-      } else if (e === 1) {
-        (this.showProjectLists = true), (this.showList = false);
-        this.registerProject = false;
-        console.log("id tab : " + e);
-      } else {
-        this.showList = true;
-        this.registerProject = false;
-        (this.showProjectLists = false), console.log("id tab : " + e);
-      }
-    },
-
     cancel() {
       this.showPayrollItem = false;
     },
@@ -228,8 +224,8 @@ export default {
 .v-btn {
   margin-right: 19px;
 }
-#nav-btn {
-  width: 100%;
+.nav-btn {
+  width: 28%;
 }
 #cancel {
   margin-left: 15px;
