@@ -26,6 +26,7 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    @keyup.enter="submit()"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
