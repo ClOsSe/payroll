@@ -53,15 +53,11 @@ export default {
   },
   methods: {
     submit() {
-      // naghsh user ( admin - user) moshakhas mishe
-      //  man roye rol ya naghsh shart mizaram baraye ersal be samt baghi safahat
       this.$axios
         .post("/login", {
           username: this.username,
           password: this.password,
         })
-        // data.data.token token az server miyad
-        // data.data.role naghsh user az samt server bayad biyad
         .then((data) => {
           if (data.data.token) {
             localStorage.setItem("token", data.data.token);
@@ -70,12 +66,11 @@ export default {
               this.$router.push("/employee");
             } else if (data.data.role === "admin") {
               this.$router.push("/employer");
-            } else {
-              alert(data); //username or password is not correct!
-            }
+            } 
           }
         })
         .catch((e) => {
+          alert("نام کاربری یا رمز عبور صحیح نمی‌باشد");
           console.log(e);
         });
     },
