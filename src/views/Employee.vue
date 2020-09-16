@@ -20,7 +20,7 @@
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
-      <PopUpDialog :selected="selected"></PopUpDialog>
+      <PopUpDialog :selected="selected" endpoint="users"></PopUpDialog>
     </v-dialog>
 
     <!-- ***********************   POPUP   *************************** -->
@@ -38,27 +38,17 @@ export default {
       selected: "",
       projectname: "", // save project name to send to show on pop up title
       headers: [
-        { text: "نام پروژه", sortable: false, value: "project_name" },
+        // { text: "نام پروژه", sortable: false, value: "project_name" },
         { text: "تاریخ", sortable: false, value: "date_monthly" },
+        { text: "درآمد", sortable: false, value: "basic_salary" },
       ],
-      items: [
-        {
-          id: "1",
-          project_name: "شرکت سیمان",
-          date_monthly: "1399/06/01",
-        },
-        {
-          id: "2",
-          project_name: "شرکت سیمان2",
-          date_monthly: "1399/07/01",
-        },
-      ],
+      items: [],
     };
   },
   mounted() {
     this.$axios
-      .get("/user/list")
-      .then((data) => {
+      .get("/users/list")
+      .then(({ data }) => {
         this.items = data;
       })
       .catch((e) => {
@@ -76,7 +66,6 @@ export default {
       this.dialog = true;
       this.selected = veiwItem.id;
       this.projectname = veiwItem.project_name;
-      console.log("this is id : " + this.selected);
     },
   },
 };
