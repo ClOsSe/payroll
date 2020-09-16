@@ -12,7 +12,7 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    v-model="username"
+                    v-model.trim="username"
                     label="نام کاربری"
                     name="username"
                     prepend-icon="mdi-account"
@@ -20,7 +20,7 @@
                   ></v-text-field>
 
                   <v-text-field
-                    v-model="password"
+                    v-model.trim="password"
                     id="password"
                     label="رمز‌عبور"
                     name="password"
@@ -53,6 +53,10 @@ export default {
   },
   methods: {
     submit() {
+      if (!this.username || !this.password) {
+        alert("لطفا ابتدا نام کاربری و رمز عبور خود را وارد کنید");
+        return;
+      }
       this.$axios
         .post("/login", {
           username: this.username,
@@ -66,11 +70,13 @@ export default {
               this.$router.push("/employee");
             } else if (data.data.role === "admin") {
               this.$router.push("/employer");
-            } 
+            } else {
+              alert(data); //username or password is not correct!
+            }
           }
         })
         .catch((e) => {
-          alert("نام کاربری یا رمز عبور صحیح نمی‌باشد");
+          alert("نام کاربری یا رمز عبور صحیح نمی‌باشد!");
           console.log(e);
         });
     },
