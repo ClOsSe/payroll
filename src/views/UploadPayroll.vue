@@ -51,7 +51,7 @@ export default {
         alert("لطفا ابتدا یک فایل انتخاب کنید!");
         return;
       }
-      list.append("projects", this.excelFile, this.excelFile.name);
+      list.append("payrollFile", this.excelFile, this.excelFile.name);
       // ersal form data be samt server
       this.$axios
         .post("admin/newList", list)
@@ -61,6 +61,8 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+      // clear file input
+      this.excelFile = "";
     },
     cancel() {
       this.dialog = false;

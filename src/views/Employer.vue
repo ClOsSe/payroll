@@ -9,8 +9,7 @@
         <v-icon large>mdi-playlist-star</v-icon>لیست پروژه‌ها
       </v-btn>
       <v-btn class="nav-btn" outlined large @click="shPayrollList()" color="#399">
-        <v-icon>mdi-cash-usd-outline</v-icon>
-لیست فیش‌های حقوقی
+        <v-icon>mdi-cash-usd-outline</v-icon>لیست فیش‌های حقوقی
       </v-btn>
       <router-view />
     </v-layout>
@@ -170,15 +169,15 @@ export default {
         alert("لطفا نام پروژه  را وارد کنید ");
         return;
       }
-      console.log(this.projectName);
       this.$axios
         .post("admin/project", { project_name: this.projectName })
-        .then((data) => {
-          console.log(data);
+        .then(({ data }) => {
+          alert(data);
         })
         .catch((e) => {
           console.log(e);
         });
+      this.projectName = "";
     },
   },
 };
