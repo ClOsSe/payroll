@@ -2,15 +2,22 @@
   <v-container>
     <!-- ************************ tabs  ******************************* -->
     <v-layout row>
-      <v-btn class="nav-btn" outlined large @click="rgNewProject()" color="#399">
-        <v-icon>mdi-plus</v-icon>پروژه جدید
-      </v-btn>
-      <v-btn class="nav-btn" outlined large @click="shProjectList()" color="#399">
-        <v-icon large>mdi-playlist-star</v-icon>لیست پروژه‌ها
-      </v-btn>
-      <v-btn class="nav-btn" outlined large @click="shPayrollList()" color="#399">
-        <v-icon>mdi-cash-usd-outline</v-icon>لیست فیش‌های حقوقی
-      </v-btn>
+      <div class="col-12 col-md-4">
+        <v-btn class="nav-btn ma-1" outlined large @click="rgNewProject()" color="#399">
+          <v-icon>mdi-plus</v-icon>پروژه جدید
+        </v-btn>
+      </div>
+      <div class="col-12 col-md-4">
+        <v-btn class="nav-btn ma-1" outlined large @click="shProjectList()" color="#399">
+          <v-icon large>mdi-playlist-star</v-icon>لیست پروژه‌ها
+        </v-btn>
+      </div>
+      <div class="col-12 col-md-4">
+        <v-btn class="nav-btn ma-1" outlined large @click="shPayrollList()" color="#399">
+          <v-icon>mdi-cash-usd-outline</v-icon>فیش‌های حقوقی
+        </v-btn>
+      </div>
+
       <router-view />
     </v-layout>
     <!-- ***********************   Body    *************************** -->
@@ -186,14 +193,6 @@ export default {
 .body {
   width: 100%;
 }
-.v-tabs {
-  margin: 0px;
-  width: 100%;
-}
-.v-tab {
-  width: 120px;
-  height: 60px;
-}
 .v-text-field {
   margin-top: 10%;
   margin-right: 15px;
@@ -203,8 +202,7 @@ export default {
   letter-spacing: 0;
 }
 .nav-btn {
-  width: 100%;
-  margin: 1px;
+  width: 96.2%;
 }
 #cancel {
   margin-left: 15px;
