@@ -1,66 +1,58 @@
 <template>
   <v-container>
+    <!-- ************************ tabs  ******************************* -->
     <v-layout row>
-      <v-btn class="nav-btn" small @click="rgNewProject()" text color="#399"
-        >تعریف پروژه جدید</v-btn
-      >
-      <v-btn class="nav-btn" small @click="shProjectList()" text color="indigo"
-        >نمایش لیست پروژه‌ها</v-btn
-      >
-      <v-btn class="nav-btn" small @click="shPayrollList()" text color="#399"
-        >لیست فیش‌های حقوقی</v-btn
-      >
+      <v-btn class="nav-btn" outlined large @click="rgNewProject()" color="#399">
+        <v-icon>mdi-plus</v-icon>پروژه جدید
+      </v-btn>
+      <v-btn class="nav-btn" outlined large @click="shProjectList()" color="#399">
+        <v-icon large>mdi-playlist-star</v-icon>لیست پروژه‌ها
+      </v-btn>
+      <v-btn class="nav-btn" outlined large @click="shPayrollList()" color="#399">
+        <v-icon>mdi-cash-usd-outline</v-icon>
+لیست فیش‌های حقوقی
+      </v-btn>
       <router-view />
-
-      <v-layout>
-        <!--  show project list -->
-        <v-row v-show="showProjectLists" md="12">
-          <v-flex>
-            <v-data-table
-              :hide-default-footer="true"
-              :headers="projectsHeaders"
-              :items="projectItems"
-              @click:row="viewProject"
-              :selected="projectNameSelected"
-            ></v-data-table>
-          </v-flex>
-        </v-row>
-        <!-- ******************************* -->
-        <v-row v-show="showList">
-          <v-flex>
-            <v-data-table
-              :hide-default-footer="true"
-              :headers="headers"
-              :items="items"
-              @click:row="viewPayrollItem"
-              :selected="selected"
-            ></v-data-table>
-          </v-flex>
-        </v-row>
-        <!-- ************************* -->
-        <v-row v-show="registerProject">
-          <v-text-field
-            v-model="projectName"
-            label="نام پروژه را وارد کنید"
-          ></v-text-field>
-          <v-btn @click="sendProjectName" color="primary">ثبت</v-btn>
-        </v-row>
-      </v-layout>
+    </v-layout>
+    <!-- ***********************   Body    *************************** -->
+    <v-layout>
+      <!--  show project list -->
+      <v-row v-show="showProjectLists" md="12">
+        <v-flex>
+          <v-data-table
+            class="projecList"
+            :hide-default-footer="true"
+            :headers="projectsHeaders"
+            :items="projectItems"
+            @click:row="viewProject"
+            :selected="projectNameSelected"
+          ></v-data-table>
+        </v-flex>
+      </v-row>
+      <!-- ******************************* -->
+      <v-row v-show="showList">
+        <v-flex>
+          <v-data-table
+            :hide-default-footer="true"
+            :headers="headers"
+            :items="items"
+            @click:row="viewPayrollItem"
+            :selected="selected"
+          ></v-data-table>
+        </v-flex>
+      </v-row>
+      <!-- ************************* -->
+      <v-row v-show="registerProject">
+        <v-text-field v-model="projectName" label="نام پروژه را وارد کنید"></v-text-field>
+        <v-btn @click="sendProjectName" color="primary">ثبت</v-btn>
+      </v-row>
     </v-layout>
     <!-- ***********************   POPUP   *************************** -->
 
     <v-dialog v-model="showPayrollItem">
       <v-card-title class="headline grey lighten-2 pos">
         نام پروژه {{ this.payrollname2 }}
-        <v-btn
-          small
-          absolute
-          left
-          dark
-          color="error"
-          id="cancel"
-          @click="cancel()"
-        >
+        <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -73,15 +65,7 @@
       <v-card-title class="headline grey lighten-2 pos">
         <h5>آپلود فیش حقوق برای پروژه:</h5>
         <h4>{{ this.projectname2 }}</h4>
-        <v-btn
-          small
-          absolute
-          left
-          dark
-          color="error"
-          id="cancel"
-          @click="cancelUpload()"
-        >
+        <v-btn small absolute left dark color="error" id="cancel" @click="cancelUpload()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -217,12 +201,16 @@ export default {
   width: 100%;
 }
 .v-btn {
-  margin-right: 19px;
+  letter-spacing: 0;
 }
 .nav-btn {
-  width: 28%;
+  width: 100%;
+  margin: 1px;
 }
 #cancel {
   margin-left: 15px;
+}
+.projecList {
+  width: 100%;
 }
 </style>
