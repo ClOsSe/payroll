@@ -100,7 +100,7 @@ export default {
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
       { text: "کد پرسنلی", sortable: false, value: "id" },
       { text: "نام پروژه", sortable: false, value: "project_name" },
-      { text: " تاریخ فیش", value: "date_monthly" },
+      { text: " تاریخ فیش", sortable: false, value: "date_monthly" },
     ],
     items: [],
     projectsHeaders: [
