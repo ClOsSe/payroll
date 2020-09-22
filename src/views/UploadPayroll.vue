@@ -30,10 +30,10 @@
 </template>
 <script>
 export default {
-  props: ["projectNameSelected"],
-
+  props: ["project_id"],
   data: () => ({
     excelFile: null,
+    prjId: "",
 
     excelFileRules: [
       (value) =>
@@ -51,18 +51,19 @@ export default {
         alert("لطفا ابتدا یک فایل انتخاب کنید!");
         return;
       }
-      list.append("payrollFile", this.excelFile, this.excelFile.name);
+      list.append("payrollFile", this.excelFile);
+      list.append("project_id", this.project_id);
       // ersal form data be samt server
       this.$axios
         .post("admin/newList", list)
-        .then((data) => {
-          console.log(data);
+        .then(({ data }) => {
+          alert(data);
         })
         .catch((e) => {
           console.log(e);
         });
       // clear file input
-      this.excelFile = "";
+      this.excelFile = null;
     },
     cancel() {
       this.dialog = false;

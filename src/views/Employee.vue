@@ -8,6 +8,8 @@
           :items="items"
           @click:row="veiwItem"
           :selected="selected"
+          :sort-by="['date_monthly']"
+          :sort-desc="[ true]"
         ></v-data-table>
       </v-flex>
     </v-layout>
@@ -40,7 +42,8 @@ export default {
       headers: [
         // { text: "نام پروژه", sortable: false, value: "project_name" },
         { text: "تاریخ", sortable: false, value: "date_monthly" },
-        { text: "درآمد", sortable: false, value: "basic_salary" },
+        { text: "دریافتی", sortable: false, value: "basic_salary" },
+        { text: "نام پروژه", sortable: false, value: "project_name" },
       ],
       items: [],
     };
