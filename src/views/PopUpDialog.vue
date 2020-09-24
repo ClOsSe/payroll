@@ -1,8 +1,8 @@
 <template>
-  <v-card class="col" tile>
+  <v-card class="tabels" tile>
     <v-card-text id="text">
       <!-- <v-data-table :hide-default-footer="true" :headers="headers" :items="information"></v-data-table> -->
-      <table id="table">
+      <table id="table" class="firsttable">
         <thead id="tablehead">
           <td class="tdthead">
             <b>مشخصات فردی</b>
@@ -12,7 +12,8 @@
           :hide-default-footer="true"
           :headers="headers"
           :items="information"
-        ></v-data-table>
+        >
+        </v-data-table>
       </table>
       <table id="table">
         <thead id="tablehead">
@@ -46,15 +47,37 @@
           :hide-default-footer="true"
           :headers="headers3"
           :items="Deductions"
-        ></v-data-table>
+        >
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr>
+                <td v-for="item in items[0]" :key="item.name">
+                  {{ mask(item) }}
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-data-table>
       </table>
+      <!-- ================================================================================ -->
+      <!-- <v-textarea v-for="item in fulldata_items" :key="item"
+        >{{ item }}
+      </v-textarea> -->
+      <v-row>
+        <v-text-field
+          class="col-md-5"
+          v-for="(value, key) in fulldata_items[0]"
+          :key="key"
+          :value="value"
+          :label="key"
+          readonly
+        ></v-text-field>
+      </v-row>
+
+      <!-- ================================================================================ -->
     </v-card-text>
 
     <v-divider></v-divider>
-    <h2 v-show="dllink">
-      لینک دانلود (کلیک کنید) :
-      <a :href="this.link">برای دانلود کلیک کنید</a>
-    </h2>
 
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -95,14 +118,7 @@ export default {
       { text: "کد پرسنلی", sortable: false, value: "personal_id" },
     ],
 
-    information: [
-      {
-        name: "محمد",
-        lname: "گودرزی",
-        national_id: "۴۱۲۴۱۲۴۱۲",
-        personal_id: "۱۲۳۴۵",
-      },
-    ],
+    information: [],
     headers2: [
       {
         text: "حقوق پایه",
@@ -126,15 +142,7 @@ export default {
       { text: "مجموع دریافتی", sortable: false, value: "all", name: "all" },
     ],
 
-    salary: [
-      {
-        basicSalary: "۲۰۰۰۰۰۰",
-        overTime: "۵۰۰۰۰۰",
-        chPlus: "۲۵۰۰۰۰",
-        grocery: "۱۰۰۰۰۰",
-        all: "۲۸۵۰۰۰۰",
-      },
-    ],
+    salary: [],
     headers3: [
       { text: "مالیات", sortable: false, value: "tax" },
       { text: "بیمه", sortable: false, value: "Insurance" },
@@ -144,16 +152,18 @@ export default {
       { text: "مجموع کسورات", sortable: false, value: "all" },
     ],
 
-    Deductions: [
-      {
-        tax: "۳۰۰۰۰۰",
-        Insurance: "۲۳۵۰۰۰",
-        assist: "۰",
-        penalty: "۰",
-        loan: "۰",
-        all: "۵۳۵۰۰۰",
-      },
+    Deductions: [],
+
+    fulldata: [
+      { text: "مالیات", sortable: false, value: "tax" },
+      { text: "بیمه", sortable: false, value: "Insurance" },
+      { text: "مساعده", sortable: false, value: "assist" },
+      { text: "جریمه", sortable: false, value: "penalty" },
+      { text: "وام", sortable: false, value: "loan" },
+      { text: "مجموع کسورات", sortable: false, value: "all" },
     ],
+
+    fulldata_items: [],
   }),
   watch: {
     selected: {
@@ -163,13 +173,18 @@ export default {
     },
   },
   methods: {
-    mask(a) {
-      return a;
+    mask(e) {
+      let mask = new Intl.NumberFormat("fa");
+
+      return mask.format(e);
     },
     fetchData() {
-      this.$axios.get(`${this.endpoint}/${this.selected}`).then(({ data }) => {
-        this.information = data;
-      });
+      this.$axios
+        .get(`${this.endpoint}/viewItem/${this.selected}`)
+        .then(({ data }) => {
+          // fulldata_items and Deductions and salary bayad az data por shavad
+          this.information = data;
+        });
     },
     //   send req to get ifo from server
     download() {
@@ -180,9 +195,9 @@ export default {
       }
 
       this.$axios
-        .get(`/user/pdf/${this.getId}`)
+        .get(`/users/pdf/${this.getId}`)
         .then((data) => {
-          this.link = data;
+          window.open(data, "_blank");
         })
         .catch((e) => {
           console.log(e);
@@ -199,6 +214,11 @@ export default {
 #table {
   border: 1px solid black;
   width: 100%;
+  margin-top: 1px;
+}
+.tabels {
+  min-width: 550px;
+  max-width: 100%;
 }
 .tablehead {
   width: 100%;
@@ -210,5 +230,8 @@ export default {
 }
 .tdtbody {
   color: black;
+}
+.other {
+  text-align: center;
 }
 </style>

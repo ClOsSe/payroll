@@ -3,17 +3,35 @@
     <!-- ************************ tabs  ******************************* -->
     <v-layout row>
       <div class="col-12 col-md-4">
-        <v-btn class="nav-btn ma-1" outlined large @click="rgNewProject()" color="#399">
+        <v-btn
+          class="nav-btn ma-1"
+          outlined
+          large
+          @click="rgNewProject()"
+          color="#399"
+        >
           <v-icon>mdi-plus</v-icon>پروژه جدید
         </v-btn>
       </div>
       <div class="col-12 col-md-4">
-        <v-btn class="nav-btn ma-1" outlined large @click="shProjectList()" color="#399">
+        <v-btn
+          class="nav-btn ma-1"
+          outlined
+          large
+          @click="shProjectList()"
+          color="#399"
+        >
           <v-icon large>mdi-playlist-star</v-icon>لیست پروژه‌ها
         </v-btn>
       </div>
       <div class="col-12 col-md-4">
-        <v-btn class="nav-btn ma-1" outlined large @click="shPayrollList()" color="#399">
+        <v-btn
+          class="nav-btn ma-1"
+          outlined
+          large
+          @click="shPayrollList()"
+          color="#399"
+        >
           <v-icon>mdi-cash-usd-outline</v-icon>فیش‌های حقوقی
         </v-btn>
       </div>
@@ -34,7 +52,7 @@
             :selected="projectNameSelected"
             disable-pagination
             :sort-by="['create_date']"
-            :sort-desc="[ true]"
+            :sort-desc="[true]"
           ></v-data-table>
         </v-flex>
       </v-row>
@@ -46,12 +64,23 @@
           label="لطفا نام پروژه را وارد کنید"
         ></v-text-field>
 
-        <v-btn class="downloadBtn" color="primary" outlined @click="sendprjNameForDivision">
+        <v-btn
+          class="downloadBtn"
+          color="primary"
+          outlined
+          @click="sendprjNameForDivision"
+        >
           <v-icon>mdi-file-find</v-icon>نمایش بر اساس نام پروژه
         </v-btn>
         <a class="downloadBtn">
-          <v-btn v-show="showdlList" width="100%" color="success" @click="dlPayrollList">
-            <v-icon>mdi-download</v-icon>دانلود لیست تمام فیش‌های حقوقی بر اساس نام پروژه
+          <v-btn
+            v-show="showdlList"
+            width="100%"
+            color="success"
+            @click="dlPayrollList"
+          >
+            <v-icon>mdi-download</v-icon>دانلود لیست تمام فیش‌های حقوقی بر اساس
+            نام پروژه
           </v-btn>
         </a>
 
@@ -64,7 +93,7 @@
             :selected="selected"
             disable-pagination
             :sort-by="['date_monthly']"
-            :sort-desc="[ true]"
+            :sort-desc="[true]"
           ></v-data-table>
         </v-flex>
       </v-row>
@@ -81,12 +110,21 @@
     <!-- ***********************   POPUP   *************************** -->
 
     <v-dialog v-model="showPayrollItem">
-      <v-card-title class="headline grey lighten-2 pos">
+      <v-card-title class="headline grey lighten-2 pos tabelsHeader">
         نام پروژه : {{ this.payrollname2 }}
-        <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
+        <v-btn
+          small
+          absolute
+          left
+          dark
+          color="error"
+          id="cancel"
+          @click="cancel()"
+        >
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
+
       <PopUpDialog :selected="selected2" endpoint="admin"></PopUpDialog>
     </v-dialog>
 
@@ -96,11 +134,22 @@
       <v-card-title class="headline grey lighten-2 pos">
         <h5>آپلود فیش حقوق برای پروژه:</h5>
         <h4>{{ this.projectname2 }}</h4>
-        <v-btn small absolute left dark color="error" id="cancel" @click="cancelUpload()">
+        <v-btn
+          small
+          absolute
+          left
+          dark
+          color="error"
+          id="cancel"
+          @click="cancelUpload()"
+        >
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
-      <UploadPayroll :selected="projectName" :project_id="project_id"></UploadPayroll>
+      <UploadPayroll
+        :selected="projectName"
+        :project_id="project_id"
+      ></UploadPayroll>
     </v-dialog>
     <!-- ********************** -->
   </v-container>
@@ -140,12 +189,7 @@ export default {
       { text: " تاریخ فیش", sortable: false, value: "date_monthly" },
     ],
     items: [
-      {
-        username: "mhammad",
-        _employee: "412",
-        project_name: "shciman",
-        date_monthly: "01/07/1399",
-      },
+      
     ],
     projectsHeaders: [
       { text: "نام پروژه", sortable: false, value: "project_name" },
@@ -240,7 +284,7 @@ export default {
       this.showdlList = true;
 
       this.$axios
-        .post("admin/downloadpayrollslist", { prj_name: this.separatiol })
+        .post("admin/showPayrollsList", { prj_name: this.separatiol })
         .then(({ data }) => {
           this.items = data;
           this.prjIdForDL = data[0]._project_id;
@@ -252,10 +296,9 @@ export default {
     // download all payroll
     dlPayrollList() {
       this.$axios
-        .post("/admin/dlpayrolls", { project_id: this.prjIdForDL })
+        .post("/admin/dlPayrolls", { project_id: this.prjIdForDL })
         .then(({ data }) => {
-          this.listDownload = data;
-          console.log(data);
+          window.open(data, "_blank");
         })
         .catch((e) => {
           console.log(e);
@@ -289,5 +332,8 @@ export default {
   width: 100%;
   margin-top: 10px;
   text-decoration: none;
+}
+.tabelsHeader {
+  min-width: 550px;
 }
 </style>
