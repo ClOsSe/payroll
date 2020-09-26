@@ -29,7 +29,7 @@
           <template v-slot:body="{ items }">
             <tbody>
               <tr>
-                <td v-for="item in items[0]" :key="item.name">
+                <td v-for="item in items[0]" :key="item">
                   {{ mask(item) }}
                 </td>
               </tr>
@@ -51,7 +51,7 @@
           <template v-slot:body="{ items }">
             <tbody>
               <tr>
-                <td v-for="item in items[0]" :key="item.name">
+                <td v-for="item in items[0]" :key="item">
                   {{ mask(item) }}
                 </td>
               </tr>
@@ -64,14 +64,9 @@
         >{{ item }}
       </v-textarea> -->
       <v-row>
-        <v-text-field
-          class="col-md-5"
-          v-for="(value, key) in fulldata_items[0]"
-          :key="key"
-          :value="value"
-          :label="key"
-          readonly
-        ></v-text-field>
+        <div v-for="(value, key) in allData" :key="key" class="col-md-4">
+          <v-text-field :value="value" :label="key" readonly></v-text-field>
+        </div>
       </v-row>
 
       <!-- ================================================================================ -->
@@ -94,6 +89,7 @@ export default {
   data: () => ({
     data: "",
     link: "",
+    allData: [],
     dllink: false,
     getId: "",
 
@@ -112,10 +108,8 @@ export default {
     //   },
     // ],
     headers: [
-      { text: "نام", sortable: false, value: "name" },
-      { text: "نام خانوادگی", sortable: false, value: "lname" },
-      { text: "کد ملی", sortable: false, value: "national_id" },
-      { text: "کد پرسنلی", sortable: false, value: "personal_id" },
+      { text: "نام و نام خانوادگی", sortable: false, value: "username" },
+      { text: "کد پرسنلی", sortable: false, value: "national_id" },
     ],
 
     information: [],
@@ -139,17 +133,13 @@ export default {
         value: "grocery",
         name: "grocery",
       },
-      { text: "مجموع دریافتی", sortable: false, value: "all", name: "all" },
     ],
 
     salary: [],
     headers3: [
       { text: "مالیات", sortable: false, value: "tax" },
-      { text: "بیمه", sortable: false, value: "Insurance" },
+      { text: "بیمه", sortable: false, value: "employee_insurance" },
       { text: "مساعده", sortable: false, value: "assist" },
-      { text: "جریمه", sortable: false, value: "penalty" },
-      { text: "وام", sortable: false, value: "loan" },
-      { text: "مجموع کسورات", sortable: false, value: "all" },
     ],
 
     Deductions: [],
@@ -183,7 +173,25 @@ export default {
         .get(`${this.endpoint}/viewItem/${this.selected}`)
         .then(({ data }) => {
           // fulldata_items and Deductions and salary bayad az data por shavad
+          this.allData = JSON.parse(data[0].full_data);
           this.information = data;
+          this.salary = [
+            {
+              basicSalary: JSON.parse(data[0].full_data)["حقوق پايه"],
+              overTime: JSON.parse(data[0].full_data)["اضافه كاري"],
+              grocery: JSON.parse(data[0].full_data)["حق خواروبار"],
+              chPlus: JSON.parse(data[0].full_data)["حق اولاد"],
+            },
+          ];
+          this.Deductions = [
+            {
+              tax: JSON.parse(data[0].full_data)["ماليات"],
+              employee_insurance: JSON.parse(data[0].full_data)[
+                "بيمه تامين اجتماعي سهم كارمند"
+              ],
+              assist: JSON.parse(data[0].full_data)["مساعده"],
+            },
+          ];
         });
     },
     //   send req to get ifo from server
