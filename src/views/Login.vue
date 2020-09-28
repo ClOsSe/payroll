@@ -66,6 +66,8 @@ export default {
           if (data.data.token) {
             localStorage.setItem("token", data.data.token);
             localStorage.setItem("role", data.data.role);
+
+            console.log(data);
             if (data.data.role === "user") {
               this.$router.push("/employee");
             } else if (data.data.role === "admin") {

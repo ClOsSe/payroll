@@ -1,37 +1,20 @@
 <template>
   <v-container>
     <!-- ************************ tabs  ******************************* -->
+
     <v-layout row>
       <div class="col-12 col-md-4">
-        <v-btn
-          class="nav-btn ma-1"
-          outlined
-          large
-          @click="rgNewProject()"
-          color="#399"
-        >
+        <v-btn class="nav-btn ma-1" outlined large @click="rgNewProject()" color="#399">
           <v-icon>mdi-plus</v-icon>پروژه جدید
         </v-btn>
       </div>
       <div class="col-12 col-md-4">
-        <v-btn
-          class="nav-btn ma-1"
-          outlined
-          large
-          @click="shProjectList()"
-          color="#399"
-        >
+        <v-btn class="nav-btn ma-1" outlined large @click="shProjectList()" color="#399">
           <v-icon large>mdi-playlist-star</v-icon>لیست پروژه‌ها
         </v-btn>
       </div>
       <div class="col-12 col-md-4">
-        <v-btn
-          class="nav-btn ma-1"
-          outlined
-          large
-          @click="shPayrollList()"
-          color="#399"
-        >
+        <v-btn class="nav-btn ma-1" outlined large @click="shPayrollList()" color="#399">
           <v-icon>mdi-cash-usd-outline</v-icon>فیش‌های حقوقی
         </v-btn>
       </div>
@@ -64,21 +47,11 @@
           label="لطفا نام پروژه را وارد کنید"
         ></v-text-field>
 
-        <v-btn
-          class="downloadBtn"
-          color="primary"
-          outlined
-          @click="sendprjNameForDivision"
-        >
+        <v-btn class="downloadBtn" color="primary" outlined @click="sendprjNameForDivision">
           <v-icon>mdi-file-find</v-icon>نمایش بر اساس نام پروژه
         </v-btn>
         <a class="downloadBtn">
-          <v-btn
-            v-show="showdlList"
-            width="100%"
-            color="success"
-            @click="dlPayrollList"
-          >
+          <v-btn v-show="showdlList" width="100%" color="success" @click="dlPayrollList">
             <v-icon>mdi-download</v-icon>دانلود لیست تمام فیش‌های حقوقی بر اساس
             نام پروژه
           </v-btn>
@@ -97,7 +70,8 @@
           ></v-data-table>
         </v-flex>
       </v-row>
-      <!-- ************************* -->
+      <!-- ***********************   register project name *************************** -->
+
       <v-row v-show="registerProject">
         <v-text-field
           v-model="projectName"
@@ -107,20 +81,12 @@
         <v-btn @click="sendProjectName" color="primary">ثبت</v-btn>
       </v-row>
     </v-layout>
-    <!-- ***********************   POPUP   *************************** -->
+    <!-- ***********************   POPUP  show one payroll item *************************** -->
 
     <v-dialog v-model="showPayrollItem">
       <v-card-title class="headline grey lighten-2 pos tabelsHeader">
         نام پروژه : {{ this.payrollname2 }}
-        <v-btn
-          small
-          absolute
-          left
-          dark
-          color="error"
-          id="cancel"
-          @click="cancel()"
-        >
+        <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -128,28 +94,33 @@
       <PopUpDialog :selected="selected2" endpoint="admin"></PopUpDialog>
     </v-dialog>
 
-    <!-- ***********************   POPUP   *************************** -->
-    <!-- upload payroll file based on project name -->
+    <!-- ***********************   POPUP  upload file *************************** -->
     <v-dialog v-model="uploadFile">
-      <v-card-title class="headline grey lighten-2 pos">
-        <h5>آپلود فیش حقوق برای پروژه:</h5>
-        <h4>{{ this.projectname2 }}</h4>
-        <v-btn
-          small
-          absolute
-          left
-          dark
-          color="error"
-          id="cancel"
-          @click="cancelUpload()"
-        >
+      <v-card-title class="headline grey lighten-2 pos card-title">
+        <h6>آپلود فیش حقوق برای پروژه:</h6>
+        <h6>{{ this.projectname2 }}</h6>
+        <v-row>
+          <v-btn dark class="changeProjectName" left absolute color="error" @click="changeName()">
+            <v-icon>mdi-file-edit</v-icon>تغییر نام پروژه
+          </v-btn>
+        </v-row>
+
+        <v-btn absolute left dark color="error" class="mt-0" id="cancel" @click="cancelUpload()">
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
-      <UploadPayroll
-        :selected="projectName"
-        :project_id="project_id"
-      ></UploadPayroll>
+      <UploadPayroll :selected="projectName" :project_id="project_id"></UploadPayroll>
+    </v-dialog>
+    <!-- ************ change project name ********** -->
+    <v-dialog v-model="ChangePrjNameDialog">
+      <v-card-title class="headline grey lighten-2 pos">
+        <h4 class="changeNameHeader">تغییر نام پروژه !</h4>
+
+        <v-btn absolute left dark color="error" id="cancel" @click="cancelChangeName()">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <ChangeprjName :selected="project_id"></ChangeprjName>
     </v-dialog>
     <!-- ********************** -->
   </v-container>
@@ -157,11 +128,13 @@
 <script>
 import PopUpDialog from "./PopUpDialog.vue";
 import UploadPayroll from "./UploadPayroll.vue";
+import ChangeprjName from "./ChangePrjName.vue";
 
 export default {
   components: {
     PopUpDialog,
     UploadPayroll,
+    ChangeprjName,
   },
   data: () => ({
     project_id: "",
@@ -181,6 +154,7 @@ export default {
     showdlList: false,
     prjIdForDL: "",
     active_tab: 1,
+    ChangePrjNameDialog: false,
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
@@ -188,9 +162,7 @@ export default {
       { text: "نام پروژه", sortable: false, value: "project_name" },
       { text: " تاریخ فیش", sortable: false, value: "date_monthly" },
     ],
-    items: [
-      
-    ],
+    items: [],
     projectsHeaders: [
       { text: "نام پروژه", sortable: false, value: "project_name" },
       { text: "تاریخ پروژه", sortable: false, value: "create_date" },
@@ -204,6 +176,7 @@ export default {
   },
   //************************* methods **********************************
   methods: {
+    // get list of all projects
     getProjectLists() {
       this.$axios
         .get("/admin/projects")
@@ -214,6 +187,7 @@ export default {
           console.log(e);
         });
     },
+    // get list of all payrolls
     getPayrollList() {
       this.$axios
         .get("/admin/list")
@@ -224,40 +198,58 @@ export default {
           console.log(e);
         });
     },
+    // register a new project name
     rgNewProject() {
       this.registerProject = true;
       this.showList = false;
       this.showProjectLists = false;
     },
+    // show project list (update)
     shProjectList() {
       this.showProjectLists = true;
       this.showList = false;
       this.registerProject = false;
       this.getProjectLists();
     },
+    // show payroll list (update)
     shPayrollList() {
       this.showList = true;
       this.registerProject = false;
       this.showProjectLists = false;
       this.getPayrollList();
     },
+    // display one single project to upload payroll list
     viewProject(viewProject) {
       this.uploadFile = true;
       this.projectname2 = viewProject.project_name;
       this.project_id = viewProject.project_id;
     },
+    // display one single payroll
     viewPayrollItem(viewItem) {
-      //  dialog will show popupdialog component
       this.showPayrollItem = true;
       this.payrollname2 = viewItem.project_name;
       this.selected2 = viewItem.id;
     },
+    // cancel displaying one payroll
     cancel() {
       this.showPayrollItem = false;
     },
+    // edit project name
+    changeName() {
+      this.ChangePrjNameDialog = true;
+    },
+    // change admin password
+    changeuserPassword() {
+      this.changePass = true;
+    },
+    // cancel displaying one single project to upload payroll list
     cancelUpload() {
       this.uploadFile = false;
       this.projectname2 = "";
+    },
+    // cancel displaying change project name popup
+    cancelChangeName() {
+      this.ChangePrjNameDialog = false;
     },
     // regiter a new project name
     sendProjectName() {
@@ -308,6 +300,7 @@ export default {
 };
 </script>
 <style>
+/* ****************************** style ***************************** */
 .body {
   width: 100%;
 }
@@ -315,6 +308,9 @@ export default {
   margin-top: 10%;
   margin-right: 15px;
   width: 100%;
+}
+.card-title {
+  height: 5em;
 }
 .v-btn {
   letter-spacing: 0;
@@ -335,5 +331,12 @@ export default {
 }
 .tabelsHeader {
   min-width: 550px;
+}
+.changeProjectName {
+  margin-left: 19px;
+  margin-top: 15px;
+}
+.changeNameHeader {
+  color: red;
 }
 </style>
