@@ -8,12 +8,7 @@
             <b>مشخصات فردی</b>
           </td>
         </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers"
-          :items="information"
-        >
-        </v-data-table>
+        <v-data-table :hide-default-footer="true" :headers="headers" :items="information"></v-data-table>
       </table>
       <table id="table">
         <thead id="tablehead">
@@ -21,17 +16,11 @@
             <b>حقوق و مزایا</b>
           </td>
         </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers2"
-          :items="salary"
-        >
+        <v-data-table :hide-default-footer="true" :headers="headers2" :items="salary">
           <template v-slot:body="{ items }">
             <tbody>
               <tr>
-                <td v-for="item in items[0]" :key="item">
-                  {{ mask(item) }}
-                </td>
+                <td v-for="item in items[0]" :key="item">{{ mask(item) }}</td>
               </tr>
             </tbody>
           </template>
@@ -43,17 +32,11 @@
             <b>کسورات</b>
           </td>
         </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers3"
-          :items="Deductions"
-        >
+        <v-data-table :hide-default-footer="true" :headers="headers3" :items="Deductions">
           <template v-slot:body="{ items }">
             <tbody>
               <tr>
-                <td v-for="item in items[0]" :key="item">
-                  {{ mask(item) }}
-                </td>
+                <td v-for="item in items[0]" :key="item">{{ mask(item) }}</td>
               </tr>
             </tbody>
           </template>
@@ -62,7 +45,7 @@
       <!-- ================================================================================ -->
       <!-- <v-textarea v-for="item in fulldata_items" :key="item"
         >{{ item }}
-      </v-textarea> -->
+      </v-textarea>-->
       <v-row>
         <div v-for="(value, key) in allData" :key="key" class="col-md-4">
           <v-text-field :value="value" :label="key" readonly></v-text-field>
@@ -93,20 +76,6 @@ export default {
     dllink: false,
     getId: "",
 
-    // headers: [
-    //   { text: "کدپرسنلی", sortable: false, value: "_employee" },
-    //   { text: "حقوق و مزایا", sortable: false, value: "basic_salary" },
-    //   { text: "مالیات", sortable: false, value: "tax" },
-    //   { text: "تاریخ", sortable: false, value: "date_monthly" },
-    // ],
-    // information: [
-    //   {
-    //     _employee: "412",
-    //     basic_salary: "2000000",
-    //     tax: "200000",
-    //     date_monthly: "01/07/13997",
-    //   },
-    // ],
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
       { text: "کد پرسنلی", sortable: false, value: "national_id" },
