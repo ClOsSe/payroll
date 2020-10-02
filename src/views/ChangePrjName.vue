@@ -26,12 +26,12 @@ export default {
     //
     changeName() {
       this.$axios
-        .put("editProjectName", {
+        .put("admin/editProjectName", {
           project_ID: this.selected,
           newName: this.newName,
         })
         .then(({ data }) => {
-          alert(data);
+          alert(data.message);
         })
         .catch((e) => {
           console.log(e);

@@ -5,7 +5,9 @@
         <v-col md="12">
           <v-card>
             <v-card-text>
-              <h4 style="color:red;">لطفا با توجه به نام پروژه, فایل فیش حقوقی را آپلود کنید.</h4>
+              <h4 style="color: red">
+                لطفا با توجه به نام پروژه, فایل فیش حقوقی را آپلود کنید.
+              </h4>
               <v-file-input
                 v-model="excelFile"
                 ref="excelFile"
@@ -64,9 +66,6 @@ export default {
         });
       // clear file input
       this.excelFile = null;
-    },
-    cancel() {
-      this.dialog = false;
     },
   },
 };

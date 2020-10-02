@@ -5,14 +5,14 @@
         <h4 class="colorTitle">تغییر رمز ورود به سامانه</h4>
       </v-card-title>
       <v-text-field
-        v-model="oldPass"
+        v-model="passwords.oldPassword"
         class="ma-0"
         label="رمز عبور فعلی خود را وارد کنید"
         prepend-icon="mdi-lock"
         type="text"
       ></v-text-field>
       <v-text-field
-        v-model="NewPass"
+        v-model="passwords.newPassword"
         class="ma-0"
         @keyup.enter="changePass()"
         label="رمز عبور جدید خود را وارد کنید"
@@ -28,22 +28,29 @@
 </template>
 <script>
 export default {
-  props: ["selected"],
-
   data: () => ({
     newPass: "",
+    passwords: {
+      oldPassword: "",
+      newPassword: "",
+    },
   }),
-
+  computed: {
+    endpoint() {
+      var subEndpoint = "";
+      if (localStorage.getItem("role") == "admin") {
+        subEndpoint = "admin";
+      } else subEndpoint = "users";
+      return subEndpoint + "/changePass";
+    },
+  },
   methods: {
     //
     changePass() {
       this.$axios
-        .put(`${this.selected}/changePass/`, {
-          oldPassword: this.oldPass,
-          newPassword: this.NewPass,
-        })
+        .put(this.endpoint, this.passwords)
         .then(({ data }) => {
-          alert(data);
+          alert(data.message);
         })
         .catch((e) => {
           console.log(e);
