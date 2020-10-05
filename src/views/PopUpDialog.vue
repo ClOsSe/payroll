@@ -1,7 +1,6 @@
 <template>
   <v-card class="tabels" tile>
     <v-card-text id="text">
-      <!-- <v-data-table :hide-default-footer="true" :headers="headers" :items="information"></v-data-table> -->
       <table id="table" class="firsttable">
         <thead id="tablehead">
           <td class="tdthead">
@@ -26,6 +25,7 @@
           :headers="headers4"
           :items="monthly"
         >
+        
           <template v-slot:body="{ items }">
             <tbody>
               <tr>
@@ -42,11 +42,6 @@
             <b>حقوق و مزایا</b>
           </td>
         </thead>
-        <!-- <v-data-table 
-          :hide-default-footer="true"
-          :headers="headers2"
-          :items="salary"
-        > -->
         <v-data-table
           :hide-default-footer="true"
           :headers="headers2"
@@ -101,18 +96,6 @@
           </td>
         </tbody>
       </table>
-      <!-- ================================================================================ -->
-      <!-- <v-textarea v-for="item in fulldata_items" :key="item"
-        >{{ item }}
-      </v-textarea>-->
-
-      <!-- <v-row>
-        <div v-for="(value, key) in allData" :key="key" class="col-md-4">
-          <v-text-field :value="value" :label="key" readonly></v-text-field>
-        </div>
-      </v-row> -->
-
-      <!-- ================================================================================ -->
     </v-card-text>
 
     <v-divider></v-divider>
@@ -124,7 +107,6 @@
   </v-card>
 </template>
 <script>
-// import { delete } from "vue/types/umd";
 export default {
   props: ["selected", "endpoint"],
   mounted() {
@@ -133,94 +115,25 @@ export default {
   data: () => ({
     data: "",
     link: "",
-    allData: [],
+    allData: [],  // full data is in here
     dllink: false,
     getId: "",
     pureDeductions: 0,
     pureAdditions: 0,
     pure: 0,
-    iszero: "",
-    filter: "",
-    iszero2: "",
-    filter2: "",
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
       { text: "کد پرسنلی", sortable: false, value: "national_id" },
     ],
-
     information: [],
-
-    headers4: [
-      { text: "کارکرد روزانه", sortable: false, value: "ruontine" },
-      { text: "کارکرد اضافه‌کاری", sortable: false, value: "overtime" },
-      { text: "مانده مرخصی", sortable: false, value: "vacation" },
-    ],
-
+    headers4: [],
     monthly: [],
-
-    headers2: [
-      {
-        text: "حقوق پایه",
-        sortable: false,
-        value: "basicSalary",
-        name: "basicSalary",
-      },
-      { text: "حق اولاد", sortable: false, value: "chPlus", name: "chPlus" },
-      {
-        text: "حق مسکن",
-        sortable: false,
-        value: "Rhousing",
-        name: "Rhousing",
-      },
-      {
-        text: "حق خواروبار",
-        sortable: false,
-        value: "grocery",
-        name: "grocery",
-      },
-      {
-        text: "اضافه کار",
-        sortable: false,
-        value: "overTime",
-        name: "overTime",
-      },
-      // {
-      //   text: "سایر مزایا",
-      //   sortable: false,
-      //   value: "otherOption",
-      //   name: "otherOption",
-      // },
-      // {
-      //   text: "روند قبلی حقوق",
-      //   sortable: false,
-      //   value: "previousSalary",
-      //   name: "previousSalary",
-      // },
-    ],
-
+    headers2: [],
     salary: [],
-    headers3: [
-      { text: "مالیات", sortable: false, value: "tax" },
-      { text: "مساعده", sortable: false, value: "assist" },
-      {
-        text: "بیمه تامین اجتماعی سهم کارمند",
-        sortable: false,
-        value: "employee_insurance",
-      },
-    ],
-
+    headers3: [],
     Deductions: [],
 
-    fulldata: [
-      { text: "مالیات", sortable: false, value: "tax" },
-      { text: "بیمه", sortable: false, value: "Insurance" },
-      { text: "مساعده", sortable: false, value: "assist" },
-      { text: "جریمه", sortable: false, value: "penalty" },
-      { text: "وام", sortable: false, value: "loan" },
-    ],
-
-    fulldata_items: [],
   }),
   watch: {
     selected: {
@@ -232,6 +145,10 @@ export default {
 
   methods: {
     calculate() {
+      this.pureDeductions = null;
+      this.pureAdditions = null;
+      this.pure = null;
+
       this.pureAdditions += parseInt(this.salary[0].basicSalary);
       this.pureAdditions += parseInt(this.salary[0].chPlus);
       this.pureAdditions += parseInt(this.salary[0].Rhousing);
@@ -246,41 +163,35 @@ export default {
     },
 
     isZero() {
-      if (this.salary[0].basicSalary === 0) {
-        this.iszero2 = "basicSalary";
-      } else if (this.salary[0].chPlus === 0) {
-        this.iszero2 = "chPlus";
-      } else if (this.salary[0].Rhousing === 0) {
-        this.iszero2 = "Rhousing";
-      } else if (this.salary[0].grocery === 0) {
-        this.iszero2 = "grocery";
-      } else if (this.salary[0].overTime === 0) {
-        this.iszero2 = "overTime";
-      }
-      for (var j in this.headers2) {
-        if (this.headers2[j].value == this.iszero2) {
-          this.filter2 = this.headers2[j].value;
-          console.log(this.filter2, " = 0");
+      var counter=0
+      for (const property in this.Deductions[0]){
+         if(this.Deductions[0][property]==0){
+            this.headers3 = this.headers3.filter( (e,index) => index!=counter)
+            delete this.Deductions[0][property]
         }
+      counter++
       }
-      if (this.Deductions[0].tax === 0) {
-        this.iszero = "tax";
-      } else if (this.Deductions[0].assist === 0) {
-        this.iszero = "assist";
-      } else if (this.Deductions[0].employee_insurance === 0) {
-        this.iszero = "employee_insurance";
-      }
-      for (var i in this.headers3) {
-        if (this.headers3[i].value == this.iszero) {
-          this.filter = this.headers3[i].value;
-          console.log(this.filter, " = 0");
+      
+      var counte2 = 0;
+      for (const property in this.salary[0]){
+         if(this.salary[0][property]==0){
+            this.headers2 = this.headers2.filter( (e,index) => index!=counte2)
+            delete this.salary[0][property]
         }
+      counte2++
+      }
+
+      var counte3 = 0;
+      for (const property in this.salary[0]){
+         if(this.salary[0][property]==0){
+            this.headers2 = this.headers2.filter( (e,index) => index!=counte3)
+            delete this.salary[0][property]
+        }
+      counte3++
       }
     },
-
     mask(e) {
       let mask = new Intl.NumberFormat("fa");
-
       return mask.format(e);
     },
     fetchData() {
@@ -290,6 +201,37 @@ export default {
           // fulldata_items and Deductions and salary bayad az data por shavad
           this.allData = JSON.parse(data[0].full_data);
           this.information = data;
+          this.headers2 = [{
+            text: "حقوق پایه",
+            sortable: false,
+            value: "basicSalary",
+            name: "basicSalary",
+            },
+            { text: "حق اولاد", sortable: false, value: "chPlus", name: "chPlus" },
+            {
+            text: "حق مسکن",
+            sortable: false,
+            value: "Rhousing",
+            name: "Rhousing",
+            },
+            {
+            text: "حق خواروبار",
+            sortable: false,
+            value: "grocery",
+            name: "grocery",
+            },
+            {
+            text: "اضافه کار",
+            sortable: false,
+            value: "overTime",
+            name: "overTime",
+            },
+          ]
+          this.headers4 = [
+            { text: "کارکرد روزانه", sortable: false, value: "ruontine" },
+            { text: "کارکرد اضافه‌کاری", sortable: false, value: "overtime" },
+            { text: "مانده مرخصی", sortable: false, value: "vacation" },
+          ]
           this.salary = [
             {
               basicSalary: JSON.parse(data[0].full_data)["حقوق پايه"],
@@ -297,12 +239,16 @@ export default {
               Rhousing: JSON.parse(data[0].full_data)["حق مسكن"],
               grocery: JSON.parse(data[0].full_data)["حق خواروبار"],
               overTime: JSON.parse(data[0].full_data)["اضافه كاري"],
-              // otherOption: JSON.parse(data[0].full_data)[""],
-              // previousSalary: JSON.parse(data[0].full_data)[""],
             },
           ];
-          // console.log(this.salary[0].Rhousing);
-
+          this.headers3 = [{ text: "مالیات", sortable: false, value: "tax" },
+            { text: "مساعده", sortable: false, value: "assist" },
+            {
+            text: "بیمه تامین اجتماعی سهم کارمند",
+            sortable: false,
+            value: "employee_insurance",
+            },
+          ]
           this.Deductions = [
             {
               tax: JSON.parse(data[0].full_data)["ماليات"],

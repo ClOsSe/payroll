@@ -6,7 +6,6 @@
         <v-icon dark>mdi-login</v-icon>
       </v-btn>
       <v-btn
-        v-if="showbtn"
         right
         absolute
         color="red"
@@ -14,11 +13,11 @@
         class="ChangePass mt-4"
         @click="changeuserPassword"
       >
-        <h4>تغیر رمز عبور</h4>
+        <h4>تغییر رمز عبور</h4>
       </v-btn>
 
       <v-dialog v-model="changePass">
-        <ChangePassword :selected="userrole"></ChangePassword>
+        <ChangePassword />
       </v-dialog>
     </v-layout>
     <router-view />
@@ -33,7 +32,6 @@ export default {
   },
   data: () => ({
     changePass: false,
-    userrole: "",
   }),
 
   computed: {

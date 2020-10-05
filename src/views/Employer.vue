@@ -55,16 +55,17 @@
       <v-row v-show="showProjectLists" md="12">
         <v-flex>
           <v-data-table
-            class="projecList"
+            class="projecList "
             :hide-default-footer="true"
             :headers="projectsHeaders"
             :items="projectItems"
             @click:row="viewProject"
             :selected="projectNameSelected"
             disable-pagination
-            :sort-by="['create_date']"
+            :sort-by="['name']"
             :sort-desc="[true]"
-          ></v-data-table>
+          >
+          </v-data-table>
         </v-flex>
       </v-row>
       <!-- ******************* show users list *************************** -->
@@ -108,19 +109,13 @@
             @click:row="viewPayrollItem"
             :selected="selected"
             disable-pagination
-            :sort-by="['date_monthly']"
-            :sort-desc="[true]"
+            :sort-by="['name']"
           ></v-data-table>
         </v-flex>
       </v-row>
       <!-- ************************* -->
       <v-row v-show="registerProject">
-        <v-text-field
-          v-model="projectName"
-          @keyup.enter="sendProjectName"
-          label="نام پروژه را وارد کنید"
-        ></v-text-field>
-        <v-btn @click="sendProjectName" color="primary">ثبت</v-btn>
+        <RegisterProject></RegisterProject>
       </v-row>
     </v-layout>
     <!-- ***********************   POPUP   *************************** -->
@@ -167,23 +162,25 @@
         </v-btn>
       </v-card-title>
       <UploadPayroll
-        :selected="projectName"
+        :selected="projectname2"
         :project_id="project_id"
       ></UploadPayroll>
     </v-dialog>
     <!-- ********************** -->
   </v-container>
 </template>
+
 <script>
 import PopUpDialog from "./PopUpDialog.vue";
 import UploadPayroll from "./UploadPayroll.vue";
 import ShowUsersList from "./ShowUsersList.vue";
-
+import RegisterProject from "./RegisterProject.vue";
 export default {
   components: {
     PopUpDialog,
     UploadPayroll,
     ShowUsersList,
+    RegisterProject,
   },
   data: () => ({
     project_id: "",
@@ -193,7 +190,6 @@ export default {
     showPayrollItem: false,
     selected: "",
     selected2: "",
-    projectName: "",
     uploadFile: false,
     registerProject: false,
     showList: false,
@@ -215,8 +211,9 @@ export default {
     ],
     items: [],
     projectsHeaders: [
-      { text: "نام پروژه", sortable: false, value: "project_name" },
+      { text: "نام پروژه", sortable: true, value: "project_name" },
       { text: "تاریخ پروژه", sortable: false, value: "create_date" },
+      { text: "تاریخ پروژه", sortable: false, value: "end_date" },
     ],
     projectItems: [],
   }),
@@ -232,7 +229,20 @@ export default {
       this.$axios
         .get("/admin/projects")
         .then(({ data }) => {
+          // console.log(data);
           this.projectItems = data;
+          for (const property in this.projectItems) {
+            // console.log(Object.entries(this.projectItems[property])[2]);
+
+            let date = Object.entries(this.projectItems[property])[2];
+            console.log(date[1]);
+
+            // let m = date[1];
+            // let m = this.$moment.from(date[1], "YYYY/MM/DD");
+            // console.log(m);
+            // console.log(m._i | this.$moment("jYYYY/jMM/jD"));
+            return this.$moment(Date(date[1])).format("jYYYY/jMM/jDD");
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -280,7 +290,6 @@ export default {
       this.project_id = viewProject.project_id;
     },
     viewPayrollItem(viewItem) {
-      //  dialog will show popupdialog component
       this.showPayrollItem = true;
       this.payrollname2 = viewItem.project_name;
       this.selected2 = viewItem.id;
@@ -299,22 +308,7 @@ export default {
       this.uploadFile = false;
       this.projectname2 = "";
     },
-    // regiter a new project name
-    sendProjectName() {
-      if (!this.projectName) {
-        alert("لطفا نام پروژه را وارد کنید ");
-        return;
-      }
-      this.$axios
-        .post("admin/project", { project_name: this.projectName })
-        .then(({ data }) => {
-          alert(data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      this.projectName = "";
-    },
+
     // separatiol based on prj name
     sendprjNameForDivision() {
       if (!this.separatiol) {
@@ -368,6 +362,9 @@ export default {
 .projecList {
   width: 100%;
 }
+.bold {
+  font-weight: bold;
+}
 .downloadBtn {
   width: 100%;
   margin-top: 10px;
@@ -380,4 +377,7 @@ export default {
 .changeProjectName {
   margin-left: 5%;
 }
+/* .table.v-table tbody td {
+  font-size: 1px !important;
+} */
 </style>
