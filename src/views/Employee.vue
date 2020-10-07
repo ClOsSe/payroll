@@ -9,7 +9,7 @@
           @click:row="veiwItem"
           :selected="selected"
           :sort-by="['date_monthly']"
-          :sort-desc="[ true]"
+          :sort-desc="[true]"
         ></v-data-table>
       </v-flex>
     </v-layout>
@@ -17,8 +17,16 @@
 
     <v-dialog v-model="dialog">
       <v-card-title class="headline grey lighten-2 pos">
-        نام پروژه : {{this.projectname}}
-        <v-btn small absolute left dark color="error" id="cancel" @click="cancel()">
+        نام پروژه : {{ this.projectname }}
+        <v-btn
+          small
+          absolute
+          left
+          dark
+          color="error"
+          id="cancel"
+          @click="cancel()"
+        >
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
@@ -53,6 +61,7 @@ export default {
       .get("/users/list")
       .then(({ data }) => {
         this.items = data;
+        console.log(data);
       })
       .catch((e) => {
         console.log(e);

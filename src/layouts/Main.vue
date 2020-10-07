@@ -17,7 +17,7 @@
       </v-btn>
 
       <v-dialog v-model="changePass">
-        <ChangePassword />
+        <ChangePassword @closed="cancel" />
       </v-dialog>
     </v-layout>
     <router-view />
@@ -51,6 +51,9 @@ export default {
     },
     changeuserPassword() {
       this.changePass = true;
+    },
+    cancel() {
+      this.changePass = false;
     },
   },
 };

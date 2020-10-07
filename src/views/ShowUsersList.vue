@@ -52,6 +52,7 @@
                       <v-text-field
                         v-model="newPassword"
                         label="رمز عبور"
+                        type="password"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -123,7 +124,6 @@ export default {
         return;
       }
       this.showdlList = true;
-
       this.$axios
         .post("admin/finduser", { national_id: this.national_id })
         .then(({ data }) => {

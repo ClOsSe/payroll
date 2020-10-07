@@ -60,6 +60,7 @@ export default {
         .post("admin/newList", list)
         .then(({ data }) => {
           alert(data);
+          this.$emit("closed");
         })
         .catch((e) => {
           console.log(e);

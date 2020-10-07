@@ -32,6 +32,8 @@ export default {
         })
         .then(({ data }) => {
           alert(data.message);
+          this.newName = "";
+          this.$emit("closed");
         })
         .catch((e) => {
           console.log(e);

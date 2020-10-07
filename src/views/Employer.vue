@@ -162,21 +162,40 @@
       <UploadPayroll
         :selected="projectName"
         :project_id="project_id"
+        @closed="cancelUpload"
       ></UploadPayroll>
     </v-dialog>
     <!-- ********************** -->
+    <v-dialog v-model="enterName">
+      <v-card-title class="headline grey lighten-2 pos">
+        <h4 class="changeNameHeader">تغییر نام پروژه !</h4>
+
+        <v-btn
+          absolute
+          left
+          dark
+          color="error"
+          id="cancel"
+          @click="cancelChangeName()"
+        >
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <ChangeprjName
+        :selected="project_id"
+        @closed="cancelChangeName"
+      ></ChangeprjName>
+    </v-dialog>
   </v-container>
 </template>
-<script src="node_modules/moment/min/moment.min.js"></script>
-<script src="node_modules/moment-jalaali/build/moment-jalaali.js"></script>
-<script>
-moment().format("jYYYY/jM/jD");
-</script>
+
+
 <script>
 import PopUpDialog from "./PopUpDialog.vue";
 import UploadPayroll from "./UploadPayroll.vue";
 import ShowUsersList from "./ShowUsersList.vue";
 import RegisterProject from "./RegisterProject.vue";
+import ChangeprjName from "./ChangePrjName.vue";
 
 export default {
   components: {
@@ -184,6 +203,7 @@ export default {
     UploadPayroll,
     ShowUsersList,
     RegisterProject,
+    ChangeprjName,
   },
   data: () => ({
     project_id: "",
@@ -253,6 +273,10 @@ export default {
           console.log(e);
         });
     },
+    cancelChangeName() {
+      this.enterName = false;
+      this.uploadFile = false;
+    },
     rgNewProject() {
       this.registerProject = true;
       this.showList = false;
@@ -291,13 +315,10 @@ export default {
     },
     cancel() {
       this.showPayrollItem = false;
+      this.enterName = false;
     },
     changeName() {
       this.enterName = true;
-      this.$axios.put("changeprjName", {
-        project_ID: this.project_id,
-        newName: this.newName,
-      });
     },
     cancelUpload() {
       this.uploadFile = false;
