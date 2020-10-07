@@ -13,7 +13,7 @@
         class="ChangePass mt-4"
         @click="changeuserPassword"
       >
-        <h4>تغییر رمز عبور</h4>
+        <h4>تغیر رمز عبور</h4>
       </v-btn>
 
       <v-dialog v-model="changePass">

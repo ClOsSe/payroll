@@ -55,17 +55,14 @@
       <v-row v-show="showProjectLists" md="12">
         <v-flex>
           <v-data-table
-            class="projecList "
+            class="projecList"
             :hide-default-footer="true"
             :headers="projectsHeaders"
             :items="projectItems"
             @click:row="viewProject"
             :selected="projectNameSelected"
             disable-pagination
-            :sort-by="['name']"
-            :sort-desc="[true]"
-          >
-          </v-data-table>
+          ></v-data-table>
         </v-flex>
       </v-row>
       <!-- ******************* show users list *************************** -->
@@ -110,6 +107,7 @@
             :selected="selected"
             disable-pagination
             :sort-by="['name']"
+            :sort-desc="[true]"
           ></v-data-table>
         </v-flex>
       </v-row>
@@ -162,19 +160,24 @@
         </v-btn>
       </v-card-title>
       <UploadPayroll
-        :selected="projectname2"
+        :selected="projectName"
         :project_id="project_id"
       ></UploadPayroll>
     </v-dialog>
     <!-- ********************** -->
   </v-container>
 </template>
-
+<script src="node_modules/moment/min/moment.min.js"></script>
+<script src="node_modules/moment-jalaali/build/moment-jalaali.js"></script>
+<script>
+moment().format("jYYYY/jM/jD");
+</script>
 <script>
 import PopUpDialog from "./PopUpDialog.vue";
 import UploadPayroll from "./UploadPayroll.vue";
 import ShowUsersList from "./ShowUsersList.vue";
 import RegisterProject from "./RegisterProject.vue";
+
 export default {
   components: {
     PopUpDialog,
@@ -202,6 +205,10 @@ export default {
     enterName: false,
     newName: "",
     showUsers: false,
+    sProject: "",
+    eProject: "",
+    contractNumber: "",
+    projectName: "",
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
@@ -212,8 +219,9 @@ export default {
     items: [],
     projectsHeaders: [
       { text: "نام پروژه", sortable: true, value: "project_name" },
-      { text: "تاریخ پروژه", sortable: false, value: "create_date" },
-      { text: "تاریخ پروژه", sortable: false, value: "end_date" },
+      { text: "تاریخ شروع پروژه", sortable: false, value: "start_date" },
+      { text: "تاریخ پایان پروژه", sortable: false, value: "end_date" },
+      { text: "شماره قرارداد", sortable: false, value: "contract_number" },
     ],
     projectItems: [],
   }),
@@ -229,20 +237,7 @@ export default {
       this.$axios
         .get("/admin/projects")
         .then(({ data }) => {
-          // console.log(data);
           this.projectItems = data;
-          for (const property in this.projectItems) {
-            // console.log(Object.entries(this.projectItems[property])[2]);
-
-            let date = Object.entries(this.projectItems[property])[2];
-            console.log(date[1]);
-
-            // let m = date[1];
-            // let m = this.$moment.from(date[1], "YYYY/MM/DD");
-            // console.log(m);
-            // console.log(m._i | this.$moment("jYYYY/jMM/jD"));
-            return this.$moment(Date(date[1])).format("jYYYY/jMM/jDD");
-          }
         })
         .catch((e) => {
           console.log(e);
@@ -362,9 +357,6 @@ export default {
 .projecList {
   width: 100%;
 }
-.bold {
-  font-weight: bold;
-}
 .downloadBtn {
   width: 100%;
   margin-top: 10px;
@@ -377,7 +369,4 @@ export default {
 .changeProjectName {
   margin-left: 5%;
 }
-/* .table.v-table tbody td {
-  font-size: 1px !important;
-} */
 </style>

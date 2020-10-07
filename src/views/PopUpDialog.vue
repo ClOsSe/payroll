@@ -1,7 +1,61 @@
 <template>
   <v-card class="tabels" tile>
     <v-card-text id="text">
-      <table id="table" class="firsttable">
+      <table class="widthTable">
+        <tbody>
+          <td class="leftborder">
+            <strong class="sumColor">کد :</strong>
+          </td>
+          <td class="leftborder">
+            <strong class="sumColor">نام و نام انوادگی :</strong>
+          </td>
+          <td class="leftborder">
+            <strong class="sumColor">مرکز هزینه:</strong>
+          </td>
+          <td>
+            <strong class="sumColor">محل خدمت:</strong>
+          </td>
+        </tbody>
+      </table>
+
+      <table class="widthTable">
+        <thead>
+          <td class="leftborder">
+            <strong class="sumColor">کارکرد</strong>
+          </td>
+          <td class="leftborder">
+            <strong class="sumColor">مزایا</strong>
+          </td>
+          <td class="leftborder">
+            <strong class="sumColor">کسور</strong>
+          </td>
+          <td class="asOne">
+            <strong id="asOne3">نام </strong>
+            <strong class="asOne2"> اقساط </strong>
+            <strong class="asOne2"> مانده</strong>
+          </td>
+        </thead>
+      </table>
+      <template>
+        <table>
+          <td class="color">
+            <tr v-for="item2 in this.headers2" :key="item2">
+              {{
+                item2.text
+              }}:
+            </tr>
+          </td>
+          <td>
+            <tr v-for="item in this.salary[0]" :key="item">
+              {{
+                item
+              }}
+            </tr>
+          </td>
+        </table>
+      </template>
+
+      <!-- <table id="table" class="firsttable">
         <thead id="tablehead">
           <td class="tdthead">
             <b>مشخصات فردی</b>
@@ -77,9 +131,9 @@
             </tbody>
           </template>
         </v-data-table>
-      </table>
+      </table> -->
 
-      <table id="table">
+      <table class="widthTable">
         <tbody>
           <td>
             <p class="sumColor">
@@ -115,7 +169,7 @@ export default {
   data: () => ({
     data: "",
     link: "",
-    allData: [],  // full data is in here
+    allData: [], // full data is in here
     dllink: false,
     getId: "",
     pureDeductions: 0,
@@ -133,7 +187,6 @@ export default {
     salary: [],
     headers3: [],
     Deductions: [],
-
   }),
   watch: {
     selected: {
@@ -163,31 +216,31 @@ export default {
     },
 
     isZero() {
-      var counter=0
-      for (const property in this.Deductions[0]){
-         if(this.Deductions[0][property]==0){
-            this.headers3 = this.headers3.filter( (e,index) => index!=counter)
-            delete this.Deductions[0][property]
+      var counter = 0;
+      for (const property in this.Deductions[0]) {
+        if (this.Deductions[0][property] == 0) {
+          this.headers3 = this.headers3.filter((e, index) => index != counter);
+          delete this.Deductions[0][property];
         }
-      counter++
+        counter++;
       }
-      
+
       var counte2 = 0;
-      for (const property in this.salary[0]){
-         if(this.salary[0][property]==0){
-            this.headers2 = this.headers2.filter( (e,index) => index!=counte2)
-            delete this.salary[0][property]
+      for (const property in this.salary[0]) {
+        if (this.salary[0][property] == 0) {
+          this.headers2 = this.headers2.filter((e, index) => index != counte2);
+          delete this.salary[0][property];
         }
-      counte2++
+        counte2++;
       }
 
       var counte3 = 0;
-      for (const property in this.salary[0]){
-         if(this.salary[0][property]==0){
-            this.headers2 = this.headers2.filter( (e,index) => index!=counte3)
-            delete this.salary[0][property]
+      for (const property in this.salary[0]) {
+        if (this.salary[0][property] == 0) {
+          this.headers2 = this.headers2.filter((e, index) => index != counte3);
+          delete this.salary[0][property];
         }
-      counte3++
+        counte3++;
       }
     },
     mask(e) {
@@ -201,37 +254,43 @@ export default {
           // fulldata_items and Deductions and salary bayad az data por shavad
           this.allData = JSON.parse(data[0].full_data);
           this.information = data;
-          this.headers2 = [{
-            text: "حقوق پایه",
-            sortable: false,
-            value: "basicSalary",
-            name: "basicSalary",
-            },
-            { text: "حق اولاد", sortable: false, value: "chPlus", name: "chPlus" },
+          this.headers2 = [
             {
-            text: "حق مسکن",
-            sortable: false,
-            value: "Rhousing",
-            name: "Rhousing",
+              text: "حقوق پایه",
+              sortable: false,
+              value: "basicSalary",
+              name: "basicSalary",
             },
             {
-            text: "حق خواروبار",
-            sortable: false,
-            value: "grocery",
-            name: "grocery",
+              text: "حق اولاد",
+              sortable: false,
+              value: "chPlus",
+              name: "chPlus",
             },
             {
-            text: "اضافه کار",
-            sortable: false,
-            value: "overTime",
-            name: "overTime",
+              text: "حق مسکن",
+              sortable: false,
+              value: "Rhousing",
+              name: "Rhousing",
             },
-          ]
+            {
+              text: "حق خواروبار",
+              sortable: false,
+              value: "grocery",
+              name: "grocery",
+            },
+            {
+              text: "اضافه کار",
+              sortable: false,
+              value: "overTime",
+              name: "overTime",
+            },
+          ];
           this.headers4 = [
             { text: "کارکرد روزانه", sortable: false, value: "ruontine" },
             { text: "کارکرد اضافه‌کاری", sortable: false, value: "overtime" },
             { text: "مانده مرخصی", sortable: false, value: "vacation" },
-          ]
+          ];
           this.salary = [
             {
               basicSalary: JSON.parse(data[0].full_data)["حقوق پايه"],
@@ -241,14 +300,15 @@ export default {
               overTime: JSON.parse(data[0].full_data)["اضافه كاري"],
             },
           ];
-          this.headers3 = [{ text: "مالیات", sortable: false, value: "tax" },
+          this.headers3 = [
+            { text: "مالیات", sortable: false, value: "tax" },
             { text: "مساعده", sortable: false, value: "assist" },
             {
-            text: "بیمه تامین اجتماعی سهم کارمند",
-            sortable: false,
-            value: "employee_insurance",
+              text: "بیمه تامین اجتماعی سهم کارمند",
+              sortable: false,
+              value: "employee_insurance",
             },
-          ]
+          ];
           this.Deductions = [
             {
               tax: JSON.parse(data[0].full_data)["ماليات"],
@@ -283,13 +343,18 @@ export default {
 };
 </script>
 <style>
+.body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 #text {
   margin: 10px;
 }
-#table {
+.widthTable {
   border: 1px solid black;
   width: 100%;
-  margin-top: 1px;
+  margin-top: 5px;
 }
 .tabels {
   min-width: 550px;
@@ -310,6 +375,36 @@ export default {
   text-align: center;
 }
 .sumColor {
+  color: black;
+}
+#wth {
+  width: 100%;
+}
+#brd {
+  border: red solid 1px;
+}
+.tds {
+  border-left: 1px solid black;
+}
+.leftborder {
+  border-left: 1px black solid;
+}
+.asOne {
+  max-width: 40px;
+  color: black;
+}
+.asOne2 {
+  margin-right: 90px;
+  height: 20px;
+}
+#asOne3 {
+  margin-right: 10px;
+}
+.color {
+  color: black;
+  font-weight: bold;
+}
+.strong {
   color: black;
 }
 </style>

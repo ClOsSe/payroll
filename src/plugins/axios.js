@@ -1,10 +1,9 @@
 import axios from "axios";
 var axiosInstance = axios.create({
-  baseURL: "http://arkaapi.nodedotjs.ir",
-  // baseURL: "localhost:8080/",
-
+  // baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:3000/",
   headers: {
     Authorization: localStorage.token,
   },
 });
-export { axiosInstance };
+export { axiosInstance }
