@@ -21,7 +21,7 @@
       <table class="widthTable font-size">
         <thead>
           <td class="leftborder center">
-            <strong class="sumColor ">کارکرد</strong>
+            <strong class="sumColor div1 ">کارکرد</strong>
           </td>
           <td class="leftborder center">
             <strong class="sumColor ">مزایا</strong>
@@ -39,27 +39,26 @@
       <template>
         <!-- *********************** kar kerd rozane ******************** -->
         <table class="  widthTable ">
-          <div id="div1">
-            <td class="color txtright right">
-              <tr v-for="item2 in this.headers4" :key="item2">
-                {{
-                  item2.text
-                }}
-              </tr>
-            </td>
+          <td class="color txtright  div1">
+            <tr v-for="item2 in this.headers4" :key="item2">
+              {{
+                item2.text
+              }}
+            </tr>
+          </td>
 
-            <td class="color2 right">
-              <tr v-for="item2 in this.monthly[0]" :key="item2">
-                {{
-                  item2
-                }}
-              </tr>
-            </td>
-          </div>
+          <td class="color2 textleft div1">
+            <tr v-for="item2 in this.monthly[0]" :key="item2">
+              {{
+                item2
+              }}
+            </tr>
+          </td>
+
           <!-- ***********************  ******************** -->
           <!-- *********************** mazaya  ******************** -->
 
-          <td class="color rightborder right ">
+          <td class="color rightborder div2 ">
             <tr v-for="item2 in this.headers2" :key="item2">
               {{
                 item2.text
@@ -67,7 +66,7 @@
             </tr>
           </td>
 
-          <td class="color2 right">
+          <td class="color2 div2">
             <tr v-for="item in this.salary[0]" :key="item">
               {{
                 mask(item)
@@ -78,7 +77,7 @@
           <!-- ***********************  ******************** -->
           <!-- *********************** kosor ******************** -->
 
-          <td class="color rightborder txtright right">
+          <td class="color rightborder txtright div3">
             <tr v-for="item2 in this.headers3" :key="item2">
               {{
                 item2.text
@@ -86,7 +85,7 @@
             </tr>
           </td>
 
-          <td class=" color2 txtleft right">
+          <td class=" color2 txtleft div3">
             <tr v-for="item in this.Deductions[0]" :key="item">
               {{
                 mask(item)
@@ -96,7 +95,7 @@
 
           <!-- ****************** bills ********************* -->
 
-          <td class="color txtright rightborder right">
+          <td class="color txtright rightborder div4">
             <tr v-for="item2 in this.headers3" :key="item2">
               {{
                 item2.text
@@ -104,7 +103,7 @@
             </tr>
           </td>
 
-          <td class="color2 left">
+          <td class="color2 ">
             <tr v-for="item in this.Deductions[0]" :key="item">
               {{
                 mask(item)
@@ -123,21 +122,28 @@
 
           <td id="width0">
             <p class="sumColor">
-              جمع حقوق مزایا : {{ mask(this.pureAdditions) }} +
+              <strong>
+                جمع حقوق مزایا :
+              </strong>
+              {{ mask(this.pureAdditions) }} +
             </p>
           </td>
           <td class="width1">
             <p class="sumColor">
-              جمع کسورات : {{ mask(this.pureDeductions) }} -
+              <strong>
+                جمع کسورات :
+              </strong>
+              {{ mask(this.pureDeductions) }} -
             </p>
           </td>
 
           <td id="width2">
-            <p class="sumColor">خالص: {{ mask(this.pure) }}</p>
-          </td>
-
-          <td id="width3">
-            <p class="sumColor">خالص: {{ mask(this.pure) }}</p>
+            <p class="sumColor">
+              <strong>
+                خالص:
+              </strong>
+              {{ mask(this.pure) }}
+            </p>
           </td>
         </tbody>
       </table>
@@ -349,8 +355,18 @@ export default {
   margin: 10px;
 }
 .div1 {
-  max-width: 10%;
+  width: 180px;
 }
+.div2 {
+  width: 135px;
+}
+.div3 {
+  width: 170px;
+}
+.div4 {
+  width: 310px;
+}
+
 .widthTable {
   border: 1px solid black;
   width: 100%;
@@ -359,7 +375,6 @@ export default {
 }
 .tabels {
   min-width: 550px;
-  max-width: 100%;
 }
 .tablehead {
   width: 100%;
@@ -405,15 +420,7 @@ export default {
 .font-size2 {
   font-size: 15px;
 }
-.widths {
-  max-width: 40px;
-}
-#brd {
-  border: red solid 1px;
-}
-.tds {
-  border-left: 1px solid black;
-}
+
 .leftborder {
   border-left: 1px black solid;
 }
@@ -425,13 +432,7 @@ export default {
   max-width: 40px;
   color: black;
 }
-.asOne2 {
-  margin-right: 90px;
-  height: 20px;
-}
-#asOne3 {
-  margin-right: 10px;
-}
+
 .color {
   color: black;
   font-weight: bold;

@@ -43,8 +43,9 @@
 </template>
 
 <script>
-// import { axiosInstance } from "../plugins/axios";
+import { axiosInstance } from "../plugins/axios";
 export default {
+  props: ["logout"],
   data() {
     return {
       username: "",
@@ -66,8 +67,8 @@ export default {
           if (data.data.token) {
             localStorage.setItem("token", data.data.token);
             localStorage.setItem("role", data.data.role);
-            console.log(data.data);
-
+            axiosInstance.defaults.headers.common["Authorization"] =
+              data.data.token;
             if (data.data.role === "user") {
               this.$router.push("/employee");
             } else if (data.data.role === "admin") {
