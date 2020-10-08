@@ -1,9 +1,9 @@
 <template>
   <v-card class="tabels" tile>
-    <v-card-text id="text">
-      <table class="widthTable">
-        <tbody>
-          <td class="leftborder">
+    <v-card-text id="text ">
+      <table class="widthTable ">
+        <tbody class="font-size2  ">
+          <td class="leftborder ">
             <strong class="sumColor">کد :</strong>
           </td>
           <td class="leftborder">
@@ -18,134 +18,125 @@
         </tbody>
       </table>
 
-      <table class="widthTable">
+      <table class="widthTable font-size">
         <thead>
-          <td class="leftborder">
-            <strong class="sumColor">کارکرد</strong>
+          <td class="leftborder center">
+            <strong class="sumColor ">کارکرد</strong>
           </td>
-          <td class="leftborder">
-            <strong class="sumColor">مزایا</strong>
+          <td class="leftborder center">
+            <strong class="sumColor ">مزایا</strong>
           </td>
-          <td class="leftborder">
-            <strong class="sumColor">کسور</strong>
+          <td class="leftborder center">
+            <strong class="sumColor ">کسور</strong>
           </td>
-          <td class="asOne">
-            <strong id="asOne3">نام </strong>
-            <strong class="asOne2"> اقساط </strong>
-            <strong class="asOne2"> مانده</strong>
+          <td class="asOne center ">
+            <strong class="right"> نام </strong>
+            <strong class="font-size"> اقساط </strong>
+            <strong class="left"> مانده </strong>
           </td>
         </thead>
       </table>
       <template>
-        <table>
-          <td class="color">
+        <!-- *********************** kar kerd rozane ******************** -->
+        <table class="  widthTable ">
+          <div id="div1">
+            <td class="color txtright right">
+              <tr v-for="item2 in this.headers4" :key="item2">
+                {{
+                  item2.text
+                }}
+              </tr>
+            </td>
+
+            <td class="color2 right">
+              <tr v-for="item2 in this.monthly[0]" :key="item2">
+                {{
+                  item2
+                }}
+              </tr>
+            </td>
+          </div>
+          <!-- ***********************  ******************** -->
+          <!-- *********************** mazaya  ******************** -->
+
+          <td class="color rightborder right ">
             <tr v-for="item2 in this.headers2" :key="item2">
               {{
                 item2.text
-              }}:
-            </tr>
-          </td>
-          <td>
-            <tr v-for="item in this.salary[0]" :key="item">
-              {{
-                item
               }}
             </tr>
           </td>
+
+          <td class="color2 right">
+            <tr v-for="item in this.salary[0]" :key="item">
+              {{
+                mask(item)
+              }}
+            </tr>
+          </td>
+
+          <!-- ***********************  ******************** -->
+          <!-- *********************** kosor ******************** -->
+
+          <td class="color rightborder txtright right">
+            <tr v-for="item2 in this.headers3" :key="item2">
+              {{
+                item2.text
+              }}
+            </tr>
+          </td>
+
+          <td class=" color2 txtleft right">
+            <tr v-for="item in this.Deductions[0]" :key="item">
+              {{
+                mask(item)
+              }}
+            </tr>
+          </td>
+
+          <!-- ****************** bills ********************* -->
+
+          <td class="color txtright rightborder right">
+            <tr v-for="item2 in this.headers3" :key="item2">
+              {{
+                item2.text
+              }}
+            </tr>
+          </td>
+
+          <td class="color2 left">
+            <tr v-for="item in this.Deductions[0]" :key="item">
+              {{
+                mask(item)
+              }}
+            </tr>
+          </td>
+
+          <!-- ********************************************* -->
         </table>
+        <!-- ***********************  ******************** -->
       </template>
-
-      <!-- <table id="table" class="firsttable">
-        <thead id="tablehead">
-          <td class="tdthead">
-            <b>مشخصات فردی</b>
-          </td>
-        </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers"
-          :items="information"
-        ></v-data-table>
-      </table>
-
-      <table id="table">
-        <thead id="tablehead">
-          <td class="tdthead">
-            <b>کارکرد</b>
-          </td>
-        </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers4"
-          :items="monthly"
-        >
-        
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr>
-                <td v-for="item in items[0]" :key="item">{{ mask(item) }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-data-table>
-      </table>
-
-      <table id="table">
-        <thead id="tablehead">
-          <td class="tdthead">
-            <b>حقوق و مزایا</b>
-          </td>
-        </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers2"
-          :items="salary"
-        >
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr>
-                <td v-for="item in items[0]" :key="item">
-                  {{ mask(item) }}
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-data-table>
-      </table>
-      <table id="table">
-        <thead id="tablehead">
-          <td class="tdthead">
-            <b>کسورات</b>
-          </td>
-        </thead>
-        <v-data-table
-          :hide-default-footer="true"
-          :headers="headers3"
-          :items="Deductions"
-        >
-          <template v-slot:body="{ items }">
-            <tbody>
-              <tr>
-                <td v-for="item in items[0]" :key="item">{{ mask(item) }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-data-table>
-      </table> -->
 
       <table class="widthTable">
         <tbody>
-          <td>
-            <p class="sumColor">
-              جمع کسورات : {{ mask(this.pureDeductions) }} -
-            </p>
-          </td>
-          <td>
+          <td></td>
+
+          <td id="width0">
             <p class="sumColor">
               جمع حقوق مزایا : {{ mask(this.pureAdditions) }} +
             </p>
           </td>
-          <td>
+          <td class="width1">
+            <p class="sumColor">
+              جمع کسورات : {{ mask(this.pureDeductions) }} -
+            </p>
+          </td>
+
+          <td id="width2">
+            <p class="sumColor">خالص: {{ mask(this.pure) }}</p>
+          </td>
+
+          <td id="width3">
             <p class="sumColor">خالص: {{ mask(this.pure) }}</p>
           </td>
         </tbody>
@@ -182,7 +173,13 @@ export default {
     ],
     information: [],
     headers4: [],
-    monthly: [],
+    monthly: [
+      {
+        ruontine: "۲۴",
+        overTime: "۱۲۰:۰۰:۰۰",
+        vacation: "۷",
+      },
+    ],
     headers2: [],
     salary: [],
     headers3: [],
@@ -351,10 +348,14 @@ export default {
 #text {
   margin: 10px;
 }
+.div1 {
+  max-width: 10%;
+}
 .widthTable {
   border: 1px solid black;
   width: 100%;
-  margin-top: 5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .tabels {
   min-width: 550px;
@@ -377,8 +378,35 @@ export default {
 .sumColor {
   color: black;
 }
-#wth {
-  width: 100%;
+.center {
+  margin-top: 0px;
+
+  text-align: center;
+}
+.left {
+  margin-top: 0px;
+  float: left;
+  text-align: left;
+}
+.right {
+  margin-top: 0px;
+
+  float: right;
+}
+.txtright {
+  text-align: right;
+}
+.color2 {
+  color: black;
+}
+.font-size {
+  font-size: 17px;
+}
+.font-size2 {
+  font-size: 15px;
+}
+.widths {
+  max-width: 40px;
 }
 #brd {
   border: red solid 1px;
@@ -389,6 +417,10 @@ export default {
 .leftborder {
   border-left: 1px black solid;
 }
+.rightborder {
+  border-right: 1px black solid;
+}
+
 .asOne {
   max-width: 40px;
   color: black;
