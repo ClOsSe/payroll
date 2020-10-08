@@ -52,8 +52,34 @@
     <!-- ***********************   Body    *************************** -->
     <v-layout>
       <!--  show project list -->
+
       <v-row v-show="showProjectLists" md="12">
         <v-flex>
+          <v-row class="col-12" row>
+            <v-text-field
+              class="col-lg-6 col-md-5 col-4 ma-0"
+              color="primary"
+              v-model="search"
+              @keyup.enter="findProject()"
+              label="جستجو . . ."
+            ></v-text-field>
+
+            <v-btn
+              class="col-lg-4 col-md-3 col-3 pa-5 mt-2 mr-13"
+              color="primary"
+              outlined
+              @click="findProject()"
+            >
+              <v-icon>mdi-file-find</v-icon>جستجو
+            </v-btn>
+            <v-btn
+              class="col-lg-1 col-md-2 col-1 pa-5 mt-2 mr-5"
+              color="success"
+              @click="getProjectLists()"
+            >
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+          </v-row>
           <v-data-table
             class="projecList"
             :hide-default-footer="true"
@@ -189,7 +215,6 @@
   </v-container>
 </template>
 
-
 <script>
 import PopUpDialog from "./PopUpDialog.vue";
 import UploadPayroll from "./UploadPayroll.vue";
@@ -229,6 +254,7 @@ export default {
     eProject: "",
     contractNumber: "",
     projectName: "",
+    search: "",
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
@@ -253,6 +279,16 @@ export default {
   computed: {},
   //************************* methods **********************************
   methods: {
+    findProject() {
+      this.$axios
+        .post("admin/findProject", { project_Name: this.search })
+        .then(({ data }) => {
+          this.projectItems = data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     getProjectLists() {
       this.$axios
         .get("/admin/projects")

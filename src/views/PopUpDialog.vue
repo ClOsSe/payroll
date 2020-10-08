@@ -1,27 +1,33 @@
 <template>
-  <v-card class="tabels" tile>
+  <v-card class="tabels " tile>
     <v-card-text id="text ">
       <table class="widthTable ">
         <tbody class="font-size2  ">
           <td class="leftborder ">
             <strong class="sumColor">کد :</strong>
+            <strong class="mr-10"
+              >{{ this.information[0].national_id }}
+            </strong>
           </td>
           <td class="leftborder">
             <strong class="sumColor">نام و نام انوادگی :</strong>
+            <strong class="mr-10">{{ this.information[0].username }} </strong>
           </td>
           <td class="leftborder">
             <strong class="sumColor">مرکز هزینه:</strong>
+            <strong class="mr-10">{{ this.centerCost }} </strong>
           </td>
           <td>
             <strong class="sumColor">محل خدمت:</strong>
+            <strong class="mr-10 ">{{ this.serviceLocation }} </strong>
           </td>
         </tbody>
       </table>
 
-      <table class="widthTable font-size">
+      <table class="widthTable  font-size">
         <thead>
           <td class="leftborder center">
-            <strong class="sumColor div1 ">کارکرد</strong>
+            <strong class="sumColor  ">کارکرد</strong>
           </td>
           <td class="leftborder center">
             <strong class="sumColor ">مزایا</strong>
@@ -104,9 +110,9 @@
           </td>
 
           <td class="color2 ">
-            <tr v-for="item in this.Deductions[0]" :key="item">
+            <tr v-for="item3 in this.Deductions[0]" :key="item3">
               {{
-                mask(item)
+                mask(item3)
               }}
             </tr>
           </td>
@@ -172,6 +178,8 @@ export default {
     pureDeductions: 0,
     pureAdditions: 0,
     pure: 0,
+    centerCost: "",
+    serviceLocation: "",
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
@@ -254,8 +262,9 @@ export default {
       this.$axios
         .get(`${this.endpoint}/viewItem/${this.selected}`)
         .then(({ data }) => {
-          // fulldata_items and Deductions and salary bayad az data por shavad
           this.allData = JSON.parse(data[0].full_data);
+          this.centerCost = JSON.parse(data[0].full_data)["مركز هزينه"];
+          this.serviceLocation = JSON.parse(data[0].full_data)["محل خدمت"];
           this.information = data;
           this.headers2 = [
             {
@@ -354,17 +363,21 @@ export default {
 #text {
   margin: 10px;
 }
+.maxWidth {
+  max-width: 95%;
+}
+
 .div1 {
-  width: 180px;
+  width: 235px;
 }
 .div2 {
-  width: 135px;
+  width: 175px;
 }
 .div3 {
-  width: 170px;
+  width: 225px;
 }
 .div4 {
-  width: 310px;
+  width: 410px;
 }
 
 .widthTable {
