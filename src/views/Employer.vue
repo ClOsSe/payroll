@@ -98,19 +98,26 @@
       <!-- ************* show payroll list ****************** -->
       <v-row v-show="showList" class="col-12">
         <v-text-field
-          class="col-lg-9 col-md-8 col-6 ma-0"
+          class="col-lg-7 col-md-6 col-5 ma-0"
           v-model="separatiol"
           @keyup.enter="sendprjNameForDivision"
           label="نام پروژه را وارد کنید"
         ></v-text-field>
 
         <v-btn
-          class="col-lg-3 col-md-4 col-6 mt-2"
+          class="col-lg-3 col-md-3 col-5 mt-2"
           color="primary"
           outlined
           @click="sendprjNameForDivision"
         >
           <v-icon>mdi-file-find</v-icon>نمایش بر اساس نام پروژه
+        </v-btn>
+        <v-btn
+          class="col-1 pa-5 mt-2 mr-5"
+          color="success"
+          @click="getProjectLists()"
+        >
+          <v-icon>mdi-refresh</v-icon>
         </v-btn>
         <a class="downloadBtn">
           <v-btn
@@ -281,7 +288,9 @@ export default {
   methods: {
     findProject() {
       this.$axios
-        .post("admin/findProject", { project_Name: this.search })
+        .post("admin/findProject", {
+          project_Name: this.search,
+        })
         .then(({ data }) => {
           this.projectItems = data;
         })

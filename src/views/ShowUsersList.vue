@@ -1,8 +1,8 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row class="col-12" row>
       <v-text-field
-        class="col-lg-6 col-md-5 col-4 ma-0"
+        class="col-lg-6 col-md-6 col-4 ma-0"
         color="primary"
         v-model="national_id"
         @keyup.enter="findUser()"
@@ -10,7 +10,7 @@
       ></v-text-field>
 
       <v-btn
-        class="col-lg-4 col-md-3 col-3 pa-5 mt-2 mr-13"
+        class="col-lg-3 col-md-3 col-3 pa-5 mt-2 mr-13"
         color="primary"
         outlined
         @click="findUser()"
@@ -18,7 +18,7 @@
         <v-icon>mdi-file-find</v-icon>جستجو
       </v-btn>
       <v-btn
-        class="col-lg-1 col-md-2 col-1 pa-5 mt-2 mr-5"
+        class="col-lg-1 col-md-1 col-1 pa-5 mt-2 mr-5"
         color="success"
         @click="getUsersList()"
       >

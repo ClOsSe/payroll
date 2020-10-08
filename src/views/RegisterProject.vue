@@ -28,7 +28,7 @@
             class="col-xl-3 col-lg-7 col-md-5 col-4 mr-3"
             v-model="contractNumber"
             outlined
-            type="number"
+            type="text"
             @keyup.enter="sendProjectName"
             label="شماره قرارداد"
           ></v-text-field>
