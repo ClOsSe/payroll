@@ -1,5 +1,5 @@
 <template>
-  <v-card id="screenShot" class="tabels " tile>
+  <v-card id="screenShot" class="tabels download-container" tile>
     <v-card-text id="text ">
       <table class="widthTable ">
         <tbody class="font-size2  ">
@@ -159,11 +159,14 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" @click="download">دانلود به صورت PDF</v-btn>
+      <v-btn color="primary" @click="screenshot">دانلود به صورت PDF</v-btn>
     </v-card-actions>
   </v-card>
 </template>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+<script
+  type="text/javascript"
+  src="html2canvas-master/dist/html2canvas.js"
+></script>
 <script>
 export default {
   props: ["selected", "endpoint"],
@@ -335,35 +338,37 @@ export default {
         });
     },
     //   send req to get ifo from server
-    download() {
-      if (this.selected) {
-        this.getId = this.selected;
-      } else if (this.selected2) {
-        this.getId = this.selected2;
-      }
 
-      // this.$axios
-      //   .get(`/users/pdf/${this.getId}`)
-      //   .then((data) => {
-      //     window.open(data, "_blank");
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //   });
-      // this.dllink = true;
-      // alert("ejra mishe");
-      // let div = document.getElementById("screenShot");
+    //   download() {
+    //     if (this.selected) {
+    //       this.getId = this.selected;
+    //     } else if (this.selected2) {
+    //       this.getId = this.selected2;
+    //     }
 
-      // var c = document.getElementById("screenShot");
-      // var t = c.getContext("2d");
-      // window.open("", document.getElementById("screenShot").toDataURL());
-    },
+    //     this.$axios
+    //       .get(`/users/pdf/${this.getId}`)
+    //       .then((data) => {
+    //         window.open(data, "_blank");
+    //       })
+    //       .catch((e) => {
+    //         console.log(e);
+    //       });
+    //     this.dllink = true;
+
+    //   },
   },
 };
 </script>
 <style>
+#screenShot {
+  max-width: 1000px;
+  min-width: 1000px;
+
+  margin-right: 11%;
+}
 .body {
-  width: 100%;
+  max-width: 100%;
   height: 100%;
   overflow: hidden;
 }
@@ -375,16 +380,16 @@ export default {
 }
 
 .div1 {
-  width: 240px;
+  width: 255px;
 }
 .div2 {
-  width: 170px;
+  width: 165px;
 }
 .div3 {
-  width: 225px;
+  width: 242px;
 }
 .div4 {
-  width: 430px;
+  width: 469px;
 }
 .widthTable {
   border: 1px solid black;

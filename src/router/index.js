@@ -1,7 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 //import Home from "../views/Home.vue";
-Vue.use(require('vue-jalali-moment'));
+Vue.use(require("vue-jalali-moment"));
+// import VueHtml2Canvas from "vue-html2canvas";
+
+// Vue.use(VueHtml2Canvas);
 Vue.use(VueRouter);
 
 const routes = [
