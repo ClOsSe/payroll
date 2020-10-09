@@ -380,7 +380,7 @@ export default {
 }
 
 .div1 {
-  width: 255px;
+  width: 260px;
 }
 .div2 {
   width: 165px;
