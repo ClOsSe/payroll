@@ -1,5 +1,5 @@
 <template>
-  <v-card id="screenShot" class="tabels download-container" tile>
+  <v-card ref="screenShot" class="tabels download-container" tile>
     <v-card-text id="text ">
       <table class="widthTable ">
         <tbody class="font-size2  ">
@@ -160,6 +160,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" @click="screenshot">دانلود به صورت PDF</v-btn>
+      <img :src="output" />
     </v-card-actions>
   </v-card>
 </template>
@@ -184,6 +185,7 @@ export default {
     pure: 0,
     centerCost: "",
     serviceLocation: "",
+    output: null,
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
@@ -339,29 +341,31 @@ export default {
     },
     //   send req to get ifo from server
 
-    //   download() {
-    //     if (this.selected) {
-    //       this.getId = this.selected;
-    //     } else if (this.selected2) {
-    //       this.getId = this.selected2;
-    //     }
+    download() {
+      if (this.selected) {
+        this.getId = this.selected;
+      } else if (this.selected2) {
+        this.getId = this.selected2;
+      }
 
-    //     this.$axios
-    //       .get(`/users/pdf/${this.getId}`)
-    //       .then((data) => {
-    //         window.open(data, "_blank");
-    //       })
-    //       .catch((e) => {
-    //         console.log(e);
-    //       });
-    //     this.dllink = true;
-
-    //   },
+      // this.$axios
+      //   .get(`/users/pdf/${this.getId}`)
+      //   .then((data) => {
+      //     window.open(data, "_blank");
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //   });
+      // this.dllink = true;
+      const el = this.$refs.printMe;
+      const options = { type: "dataURL" };
+      this.output = this.$html2canvas(el, options);
+    },
   },
 };
 </script>
 <style>
-#screenShot {
+.download-container {
   max-width: 1000px;
   min-width: 1000px;
 
