@@ -1,5 +1,5 @@
 <template>
-  <v-card class="tabels " tile>
+  <v-card id="screenShot" class="tabels " tile>
     <v-card-text id="text ">
       <table class="widthTable ">
         <tbody class="font-size2  ">
@@ -163,6 +163,7 @@
     </v-card-actions>
   </v-card>
 </template>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
 <script>
 export default {
   props: ["selected", "endpoint"],
@@ -341,15 +342,21 @@ export default {
         this.getId = this.selected2;
       }
 
-      this.$axios
-        .get(`/users/pdf/${this.getId}`)
-        .then((data) => {
-          window.open(data, "_blank");
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      this.dllink = true;
+      // this.$axios
+      //   .get(`/users/pdf/${this.getId}`)
+      //   .then((data) => {
+      //     window.open(data, "_blank");
+      //   })
+      //   .catch((e) => {
+      //     console.log(e);
+      //   });
+      // this.dllink = true;
+      // alert("ejra mishe");
+      // let div = document.getElementById("screenShot");
+
+      // var c = document.getElementById("screenShot");
+      // var t = c.getContext("2d");
+      // window.open("", document.getElementById("screenShot").toDataURL());
     },
   },
 };
@@ -368,18 +375,17 @@ export default {
 }
 
 .div1 {
-  width: 235px;
+  width: 240px;
 }
 .div2 {
-  width: 175px;
+  width: 170px;
 }
 .div3 {
   width: 225px;
 }
 .div4 {
-  width: 410px;
+  width: 430px;
 }
-
 .widthTable {
   border: 1px solid black;
   width: 100%;
@@ -408,7 +414,6 @@ export default {
 }
 .center {
   margin-top: 0px;
-
   text-align: center;
 }
 .left {
@@ -418,7 +423,6 @@ export default {
 }
 .right {
   margin-top: 0px;
-
   float: right;
 }
 .txtright {

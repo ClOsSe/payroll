@@ -72,6 +72,7 @@
             >
               <v-icon>mdi-file-find</v-icon>جستجو
             </v-btn>
+
             <v-btn
               class="col-lg-1 col-md-2 col-1 pa-5 mt-2 mr-5"
               color="success"
@@ -287,12 +288,16 @@ export default {
   //************************* methods **********************************
   methods: {
     findProject() {
+      if (!this.search) {
+        alert("ابتدا نام پروژه را وارد کنید!");
+      }
       this.$axios
         .post("admin/findProject", {
           project_Name: this.search,
         })
         .then(({ data }) => {
           this.projectItems = data;
+          this.search = "";
         })
         .catch((e) => {
           console.log(e);
