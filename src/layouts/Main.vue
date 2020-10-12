@@ -47,6 +47,7 @@ export default {
     logOut() {
       localStorage.removeItem("token");
       localStorage.removeItem("role");
+      axiosInstance.defaults.headers.common["Authorization"] = null;
       this.$router.push("/");
     },
     changeuserPassword() {
