@@ -101,7 +101,7 @@
 
           <!-- ****************** bills ********************* -->
 
-          <td class="color txtright rightborder div4">
+        <!--  <td class="color txtright rightborder div4">
             <tr v-for="item2 in this.headers3" :key="item2">
               {{
                 item2.text
@@ -115,8 +115,8 @@
                 mask(item3)
               }}
             </tr>
-          </td>
-
+          </td>-->
+          
           <!-- ********************************************* -->
         </table>
         <!-- ***********************  ******************** -->
@@ -194,11 +194,7 @@ export default {
     information: [],
     headers4: [],
     monthly: [
-      {
-        ruontine: "۲۴",
-        overTime: "۱۲۰:۰۰:۰۰",
-        vacation: "۷",
-      },
+      
     ],
     headers2: [],
     salary: [],
