@@ -80,7 +80,7 @@ export default {
           newName: this.newpProjectName,
           newStartDate: this.newStartDate,
           newEndDate: this.newEndDate,
-          newContractNumber : this.newContractNumber;
+          newContractNumber: this.newContractNumber,
         })
         .then(({ data }) => {
           alert(data.message);

@@ -25,6 +25,7 @@
 </template>
 <script>
 import ChangePassword from "../views/ChangePassword.vue";
+import { axiosInstance } from "../plugins/axios";
 
 export default {
   components: {
@@ -35,7 +36,7 @@ export default {
   }),
 
   computed: {
-    showbtn: function () {
+    showbtn: function() {
       if (localStorage.getItem("role") === ("admin" || "user")) {
         return true;
       } else {

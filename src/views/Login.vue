@@ -43,7 +43,7 @@
 </template>
 
 <script>
-// import { axiosInstance } from "../plugins/axios";
+import { axiosInstance } from "../plugins/axios";
 export default {
   data() {
     return {
@@ -66,7 +66,8 @@ export default {
           if (data.data.token) {
             localStorage.setItem("token", data.data.token);
             localStorage.setItem("role", data.data.role);
-            console.log(data.data);
+            axiosInstance.defaults.headers.common["Authorization"] =
+              data.data.token;
 
             if (data.data.role === "user") {
               this.$router.push("/employee");
