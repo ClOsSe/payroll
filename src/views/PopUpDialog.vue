@@ -343,19 +343,6 @@ export default {
       } else if (this.selected2) {
         this.getId = this.selected2;
       }
-
-      // this.$axios
-      //   .get(`/users/pdf/${this.getId}`)
-      //   .then((data) => {
-      //     window.open(data, "_blank");
-      //   })
-      //   .catch((e) => {
-      //     console.log(e);
-      //   });
-      // this.dllink = true;
-      const el = this.$refs.printMe;
-      const options = { type: "dataURL" };
-      this.output = this.$html2canvas(el, options);
     },
   },
 };
