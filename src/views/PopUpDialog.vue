@@ -100,7 +100,7 @@
           </td>
 
           <!-- ****************** bills ********************* -->
-<!-- 
+          <!-- 
           <td class="color txtright rightborder div4">
             <tr v-for="item2 in this.headers3" :key="item2">
               {{
@@ -184,9 +184,7 @@ export default {
     ],
     information: [],
     headers4: [],
-    monthly: [
-      
-    ],
+    monthly: [],
     headers2: [],
     salary: [],
     headers3: [],

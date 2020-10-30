@@ -1,10 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-//import Home from "../views/Home.vue";
-Vue.use(require("vue-jalali-moment"));
-// import VueHtml2Canvas from "vue-html2canvas";
 
-// Vue.use(VueHtml2Canvas);
+Vue.use(require("vue-jalali-moment"));
 Vue.use(VueRouter);
 
 const routes = [
@@ -17,8 +14,16 @@ const routes = [
     path: "/",
     component: () => import("../layouts/Main.vue"),
     children: [
-      { path: "/employee", component: () => import("../views/Employee.vue") },
-      { path: "/employer", component: () => import("../views/Employer.vue") },
+      {
+        path: "/employee",
+        name: "employee",
+        component: () => import("../views/Employee.vue"),
+      },
+      {
+        path: "/employer",
+        name: "employer",
+        component: () => import("../views/Employer.vue"),
+      },
     ],
   },
 
@@ -33,4 +38,15 @@ const router = new VueRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.name !== "Login" && !localStorage.token) {
+    next({ name: "Login" });
+  }
+  if (to.name !== "employee" && localStorage.role == "user") {
+    next({ name: "employee" });
+  }
+  if (to.name !== "employer" && localStorage.role == "admin") {
+    next({ name: "employer" });
+  } else next();
+});
 export default router;
