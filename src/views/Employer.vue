@@ -106,7 +106,7 @@
         ></v-text-field>
 
         <v-btn
-          class="col-lg-3 col-md-3 col-5 mt-2"
+          class="col-lg-3 col-md-3 col-6 mt-2 mr-4"
           color="primary"
           outlined
           @click="sendprjNameForDivision"
@@ -153,19 +153,23 @@
     <!-- ***********************   POPUP   *************************** -->
 
     <v-dialog v-model="showPayrollItem">
-      <v-card-title id="popUp" class="headline grey lighten-2 tabelsHeader">
+      <v-card-title class="headline grey lighten-2 pos tabelsHeader">
         نام پروژه : {{ this.payrollname2 }}
 
-        <v-btn small dark color="error" id="cancel2" @click="cancel()">
+        <v-btn
+          small
+          absolute
+          left
+          dark
+          color="error"
+          id="cancel"
+          @click="cancel()"
+        >
           <v-icon dark>mdi-close</v-icon>
         </v-btn>
       </v-card-title>
 
-      <PopUpDialog
-        class="mt-0 pa-1"
-        :selected="selected2"
-        endpoint="admin"
-      ></PopUpDialog>
+      <PopUpDialog :selected="selected2" endpoint="admin"></PopUpDialog>
     </v-dialog>
 
     <!-- ***********************   POPUP   *************************** -->
@@ -404,14 +408,6 @@ export default {
 };
 </script>
 <style>
-#popUp {
-  max-width: 1000px;
-  min-width: 1000px;
-  margin-right: 11%;
-}
-#cancel2 {
-  margin-right: 700px;
-}
 .body {
   width: 100%;
 }
@@ -426,13 +422,9 @@ export default {
 .nav-btn {
   width: 96.2%;
 }
-#fish {
-  margin-top: 20px;
-}
 #cancel {
   margin-left: 15px;
 }
-
 .projecList {
   width: 100%;
 }

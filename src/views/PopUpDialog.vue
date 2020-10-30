@@ -1,9 +1,9 @@
 <template>
-  <v-card ref="screenShot" class="tabels download-container" tile>
-    <v-card-text id="text ">
-      <table class="widthTable ">
-        <tbody class="font-size2  ">
-          <td class="leftborder ">
+  <v-card id="screenShot" class="tabels" tile>
+    <v-card-text id="text">
+      <table class="widthTable">
+        <tbody class="font-size2">
+          <td class="leftborder">
             <strong class="sumColor">کد :</strong>
             <strong class="mr-10"
               >{{ this.information[0].national_id }}
@@ -19,23 +19,23 @@
           </td>
           <td>
             <strong class="sumColor">محل خدمت:</strong>
-            <strong class="mr-10 ">{{ this.serviceLocation }} </strong>
+            <strong class="mr-10">{{ this.serviceLocation }} </strong>
           </td>
         </tbody>
       </table>
 
-      <table class="widthTable  font-size">
+      <table class="widthTable font-size">
         <thead>
           <td class="leftborder center">
-            <strong class="sumColor  ">کارکرد</strong>
+            <strong class="sumColor">کارکرد</strong>
           </td>
           <td class="leftborder center">
-            <strong class="sumColor ">مزایا</strong>
+            <strong class="sumColor">مزایا</strong>
           </td>
           <td class="leftborder center">
-            <strong class="sumColor ">کسور</strong>
+            <strong class="sumColor">کسور</strong>
           </td>
-          <td class="asOne center ">
+          <td class="asOne center">
             <strong class="right"> نام </strong>
             <strong class="font-size"> اقساط </strong>
             <strong class="left"> مانده </strong>
@@ -44,8 +44,8 @@
       </table>
       <template>
         <!-- *********************** kar kerd rozane ******************** -->
-        <table class="  widthTable ">
-          <td class="color txtright  div1">
+        <table class="widthTable">
+          <td class="color txtright div1">
             <tr v-for="item2 in this.headers4" :key="item2">
               {{
                 item2.text
@@ -64,7 +64,7 @@
           <!-- ***********************  ******************** -->
           <!-- *********************** mazaya  ******************** -->
 
-          <td class="color rightborder div2 ">
+          <td class="color rightborder div2">
             <tr v-for="item2 in this.headers2" :key="item2">
               {{
                 item2.text
@@ -91,7 +91,7 @@
             </tr>
           </td>
 
-          <td class=" color2 txtleft div3">
+          <td class="color2 txtleft div3">
             <tr v-for="item in this.Deductions[0]" :key="item">
               {{
                 mask(item)
@@ -100,8 +100,8 @@
           </td>
 
           <!-- ****************** bills ********************* -->
-
-        <!--  <td class="color txtright rightborder div4">
+<!-- 
+          <td class="color txtright rightborder div4">
             <tr v-for="item2 in this.headers3" :key="item2">
               {{
                 item2.text
@@ -109,14 +109,14 @@
             </tr>
           </td>
 
-          <td class="color2 ">
+          <td class="color2">
             <tr v-for="item3 in this.Deductions[0]" :key="item3">
               {{
                 mask(item3)
               }}
             </tr>
-          </td>-->
-          
+          </td> -->
+
           <!-- ********************************************* -->
         </table>
         <!-- ***********************  ******************** -->
@@ -128,26 +128,20 @@
 
           <td id="width0">
             <p class="sumColor">
-              <strong>
-                جمع حقوق مزایا :
-              </strong>
+              <strong> جمع حقوق مزایا : </strong>
               {{ mask(this.pureAdditions) }} +
             </p>
           </td>
           <td class="width1">
             <p class="sumColor">
-              <strong>
-                جمع کسورات :
-              </strong>
+              <strong> جمع کسورات : </strong>
               {{ mask(this.pureDeductions) }} -
             </p>
           </td>
 
           <td id="width2">
             <p class="sumColor">
-              <strong>
-                خالص:
-              </strong>
+              <strong> خالص: </strong>
               {{ mask(this.pure) }}
             </p>
           </td>
@@ -159,16 +153,14 @@
 
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" @click="screenshot">دانلود به صورت PDF</v-btn>
-      <img :src="output" />
+      <v-btn color="primary" @click="download">دانلود به صورت PDF</v-btn>
     </v-card-actions>
   </v-card>
 </template>
-<script
-  type="text/javascript"
-  src="html2canvas-master/dist/html2canvas.js"
-></script>
 <script>
+// import { jsPDF } from "jspdf";
+// import html2canvas from "html2canvas";
+
 export default {
   props: ["selected", "endpoint"],
   mounted() {
@@ -185,7 +177,6 @@ export default {
     pure: 0,
     centerCost: "",
     serviceLocation: "",
-    output: null,
 
     headers: [
       { text: "نام و نام خانوادگی", sortable: false, value: "username" },
@@ -336,47 +327,49 @@ export default {
         });
     },
     //   send req to get ifo from server
-
     download() {
       if (this.selected) {
         this.getId = this.selected;
       } else if (this.selected2) {
         this.getId = this.selected2;
       }
+      this.$axios
+        .get(`/pdf/${this.selected}`)
+        .then(({ data }) => {
+          window.open(data, "_blank");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
 };
 </script>
 <style>
-.download-container {
-  max-width: 1000px;
-  min-width: 1000px;
-
-  margin-right: 11%;
-}
 .body {
-  max-width: 100%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
 #text {
   margin: 10px;
+  padding-top: 10px;
 }
 .maxWidth {
   max-width: 95%;
 }
 
 .div1 {
-  width: 260px;
+  width: 240px;
 }
 .div2 {
-  width: 165px;
+  width: 170px;
 }
 .div3 {
-  width: 242px;
+  width: 225px;
 }
 .div4 {
-  width: 469px;
+  width: 430px;
 }
 .widthTable {
   border: 1px solid black;
