@@ -4,7 +4,7 @@
       <v-container fluid>
         <v-row>
           <v-text-field
-            class="col-xl-3 col-lg-7 col-md-5 col-4 mr-3"
+            class="col-lg-7 col-md-5 col-4 mr-3"
             v-model="projectName"
             outlined
             @keyup.enter="sendProjectName"
@@ -12,7 +12,7 @@
           ></v-text-field>
           <input
             type="text"
-            class="form-control form-control-lg  dateinpits col-xl-3 col-lg-4 col-md-3 col-4 mr-16"
+            class="form-control form-control-lg  dateinpits  col-lg-4 col-md-3 col-4 mr-16"
             v-model="sProject"
             id="my-custom-input"
             placeholder="تاریخ شروع"
@@ -25,7 +25,7 @@
             :max="eProject"
           />
           <v-text-field
-            class="col-xl-3 col-lg-7 col-md-5 col-4 mr-3"
+            class="col-lg-7 col-md-5 col-4 mr-3"
             v-model="contractNumber"
             outlined
             type="text"
@@ -35,7 +35,7 @@
 
           <input
             type="text"
-            class="form-control form-control-lg mr-3 dateinpits col-xl-3 col-lg-4 col-md-3 col-4 mr-16"
+            class="form-control form-control-lg mr-3 dateinpits  col-lg-4 col-md-3 col-4 mr-16"
             v-model="eProject"
             id="my-custom-input2"
             placeholder="تاریخ پایان"
