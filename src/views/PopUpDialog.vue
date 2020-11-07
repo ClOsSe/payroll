@@ -332,7 +332,7 @@ export default {
         this.getId = this.selected2;
       }
       this.$axios
-        .get(`/pdf/${this.selected}`)
+        .get(`/pdf/${this.getId}`)
         .then(({ data }) => {
           window.open(data, "_blank");
         })
