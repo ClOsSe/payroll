@@ -334,7 +334,7 @@ export default {
       this.$axios
         .get(`/pdf/${this.getId}`)
         .then(({ data }) => {
-          window.open(data, "_blank");
+          window.location.assign(data);
         })
         .catch((e) => {
           console.log(e);
